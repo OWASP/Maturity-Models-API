@@ -32,12 +32,12 @@ class Server
     @
 
   add_Angular_Route: ()=>
-    @.app.get '/view*'        , (req, res) => res.sendFile __dirname.path_Combine('../../ui/.dist/html/index.html')
+    @.app.get '/view*'        , (req, res) => res.sendFile __dirname.path_Combine('../../../ui/.dist/html/index.html')
     @
 
   add_Bower_Support: ()=>
-    @.app.use '/lib',  express.static __dirname.path_Combine('../../ui/bower_components')
-    @.app.use '/ui' ,  express.static __dirname.path_Combine('../../ui/.dist')
+    @.app.use '/lib',  express.static __dirname.path_Combine('../../../ui/bower_components')
+    @.app.use '/ui' ,  express.static __dirname.path_Combine('../../../ui/.dist')
     @
 
   add_Controllers: ->
@@ -62,7 +62,7 @@ class Server
 
   setup_Logging: =>
     fs = require 'fs'
-    @.logs_Folder  = __dirname.path_Combine('../../logs')
+    @.logs_Folder  = __dirname.path_Combine('../../../logs')
     #console.log 'LOGS Folder: ' + @.logs_Folder
     if @.logs_Folder.folder_Not_Exists()               # note: docker was having a problem with the creation of this folder
       @.logs_Folder.folder_Create()                    #       which is why this is now done on the Docker file (need to find root cause)

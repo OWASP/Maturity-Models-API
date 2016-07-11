@@ -1,6 +1,6 @@
 class Data_Project
   constructor: ()->
-    @.data_Path       = __dirname.path_Combine('../../data')
+    @.data_Path       = __dirname.path_Combine('../../../../data')
     @.config_File     = "maturity-model.json"
     @.schema_File     = "schema.json"
 

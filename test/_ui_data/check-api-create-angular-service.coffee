@@ -9,7 +9,7 @@ describe '_ui_data | create api , create angular service' ,->
   server       = null
   app          = null
   version      = '/api/v1'
-  path_UI_Code = './ui/data'
+  path_UI_Code = './code/ui/data'
 
   before ->
     server = new Server().setup_Server().add_Controllers()
