@@ -29,11 +29,15 @@ describe '_ui_data | create api , create angular service' ,->
       .expect (res)->
         save_Data_Into_Data_Folder path, res.body
 
+  #misc
+  it 'api/v1/routes'           , -> make_Request_And_Save "#{version}/project/schema/bsimm"
+  it 'api/v1/project/list'     , -> make_Request_And_Save "#{version}/project/list"
+
   #bsimm
-  it '/project/schema/bsimm'   , -> make_Request_And_Save "#{version}/project/schema/bsimm"
+  it '/project/schema/bsimm'   , -> make_Request_And_Save "#{version}/routes"
   it '/team/bsimm/get/team-A'  , -> make_Request_And_Save "#{version}/team/bsimm/get/team-A"
   it '/data/bsimm/team-A/score', -> make_Request_And_Save "#{version}/data/bsimm/team-A/score"
 
   #samm
-  it '/project/schema/samm'  , -> make_Request_And_Save "#{version}/project/schema/samm"
-  it '/team/bsimm/get/team-E', -> make_Request_And_Save "#{version}/team/samm/get/team-E"
+  it '/project/schema/samm'    , -> make_Request_And_Save "#{version}/project/schema/samm"
+  it '/team/bsimm/get/team-E'  , -> make_Request_And_Save "#{version}/team/samm/get/team-E"

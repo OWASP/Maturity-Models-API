@@ -13,9 +13,7 @@ describe 'server | Routes', ->
     using new Routes(app: 'app'),->
       @.options.assert_Is app: 'app'
       @.app.assert_Is 'app'
-      @.data_Files  .constructor.name.assert_Is 'Data_Files'
-      @.data_Project.constructor.name.assert_Is 'Data_Project'
-
+      @.data_Files  .constructor.name.assert_Is 'Data_Files'      
 
   it 'list_Raw', ->
     using new Routes() , ->

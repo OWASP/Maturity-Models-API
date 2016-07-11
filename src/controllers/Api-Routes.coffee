@@ -1,20 +1,17 @@
 Api_Base   = require './Api-Base'
 Routes       = require '../server/Routes'
 
-#express      = require 'express'
-
 class Api_Routes extends Api_Base
   constructor: (options)->
     @.options      = options || {}
-    #@.router       = express.Router()
     @.app          = @.options.app
     @.routes       = new Routes(app:@.app)
     super()
 
   add_Routes: ()=>
-    @.add_Route 'get', '/routes'         , @.list
-    @.add_Route 'get', '/routes/list'    , @.list_Raw
-    @.add_Route 'get', '/routes/list-raw', @.list_Fixed
+    @.add_Route 'get', '/routes'           , @.list
+    @.add_Route 'get', '/routes/list-raw'  , @.list_Raw
+    @.add_Route 'get', '/routes/list-fixed', @.list_Fixed
     @
 
       

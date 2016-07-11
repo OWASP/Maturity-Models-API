@@ -19,10 +19,11 @@ describe 'data | test-data', ->
     check_Folder './data/BSIMM-Graphs-Data/teams'
     check_Folder './data/OpenSAMM-Graphs-Data/teams'
 
+  require('coffee-script/register');
   it '(regression) Issue #113 - Upgrade team data to latest schema (check coffee files)', ->
     teams_Data = './data/BSIMM-Graphs-Data/teams'
     files = teams_Data.files_Recursive('.coffee')
     for file in files
       data = require(file)()
-      data.activities._keys().assert_Is_Bigger_Than 4
+      data.activities?._keys().assert_Is_Bigger_Than 4
                              .assert_Not_Contains 'Governance'

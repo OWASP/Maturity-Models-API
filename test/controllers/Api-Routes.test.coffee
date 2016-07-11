@@ -1,7 +1,6 @@
 Api_Routes = require '../../src/controllers/Api-Routes'
 Server     = require '../../src/server/Server'
 
-
 describe 'controllers | Api-Routes', ->
   app = null
 
@@ -25,15 +24,26 @@ describe 'controllers | Api-Routes', ->
       @.add_Routes()
       @.router.stack.assert_Size_Is 3
 
+  it 'list', ->
+    req =
+      project: 'bsimm'
+    res =
+      send: (data)->
+        data.raw.assert_Contains '/aaaa/:project/:team'
+        data.fixed.assert_Contains '/aaaa/bsimm/team-A'
+
+    using new Api_Routes(app:app), ->
+      @.router.get '/aaaa/:project/:team'
+      @.app.use('routes', @.router)
+      @.list req, res
+
   it 'list_Fixed', ->
     req = 
       project: 'bsimm'
     res =      
       send: (data)->
-        data.assert_Contains [ '/ping', '/routes/list', '/routes/list-raw']
+        data.assert_Contains [ '/ping', '/routes','/routes/list-raw', '/routes/list-fixed']
         data.assert_Contains [ '/aaaa/bsimm/team-C']
-        #data.assert_Contains [ 'demo']
-
 
     using new Api_Routes(app:app), ->
       @.add_Routes()
