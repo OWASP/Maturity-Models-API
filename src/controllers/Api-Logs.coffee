@@ -3,7 +3,7 @@ Api_Base = require './Api-Base'
 class Api_Logs extends Api_Base
   constructor: (options)->
     @.options     = options || {}
-    @.logs_Folder = __dirname.path_Combine('../../logs')      # todo: use this has the global location of this value
+    @.logs_Folder = __dirname.path_Combine('../../../../logs') # Issue 126 - Consolidate location of logs folder path
     super()
 
   add_Routes: ()=>

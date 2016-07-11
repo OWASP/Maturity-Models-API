@@ -62,11 +62,10 @@ class Server
 
   setup_Logging: =>
     fs = require 'fs'
-    @.logs_Folder  = __dirname.path_Combine('../../../logs')
-    #console.log 'LOGS Folder: ' + @.logs_Folder
-    if @.logs_Folder.folder_Not_Exists()               # note: docker was having a problem with the creation of this folder
-      @.logs_Folder.folder_Create()                    #       which is why this is now done on the Docker file (need to find root cause)
-                                                       # Issue: Find root cause of logs folder not created in docker #97
+    @.logs_Folder  = __dirname.path_Combine('../../../../logs')     # Issue 126 - Consolidate location of logs folder path
+    if @.logs_Folder.folder_Not_Exists()                            # note: docker was having a problem with the creation of this folder
+      @.logs_Folder.folder_Create()                                 #       which is why this is now done on the Docker file (need to find root cause)
+                                                                    # Issue 97 - Find root cause of logs folder not created in docker
 
     @.logs_Options =
       date_format: 'YYYY_MM_DD-hh_mm',
