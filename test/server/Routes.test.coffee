@@ -13,13 +13,23 @@ describe 'server | Routes', ->
     using new Routes(app: 'app'),->
       @.options.assert_Is app: 'app'
       @.app.assert_Is 'app'
+      @.data_Files  .constructor.name.assert_Is 'Data_Files'
+      @.data_Project.constructor.name.assert_Is 'Data_Project'
 
-  it 'list', ->
+
+  it 'list_Raw', ->
     using new Routes() , ->
-      @.list().assert_Is []
+      @.list_Raw().assert_Is []
     
     using new Routes(app: app) , ->
-      @.list().assert_Is 	[ '/ping']
+      @.list_Raw().assert_Is 	[ '/ping']
+
+  it 'list_Fixed', ->
+    using new Routes() , ->
+      @.list_Fixed().assert_Is []
+
+    using new Routes(app: app) , ->
+      @.list_Fixed().assert_Is 	[ '/ping']
 
   it 'list (with Router() routes)', ->
     app._router.stack.size().assert_Is 4                     # default mappings
@@ -32,8 +42,9 @@ describe 'server | Routes', ->
 
     #console.log app._router.stack
     using new Routes(app: app) , ->
-      @.list().assert_Is [ '/ping'
+      @.list_Raw().assert_Is [ '/ping'
                            '/aaaa---789/test---123'
                            '/aaaa---789/test---456' ]
-      
-        
+
+  # Issue 128 - Add add test for Routes.list_Fixed
+  #it 'list_Fixed', ->

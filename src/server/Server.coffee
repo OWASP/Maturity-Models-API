@@ -84,9 +84,9 @@ class Server
   server_Url: =>
     "http://localhost:#{@.port}"
 
-  routes: =>    
-    new Routes(app:@.app).list()
-      
+  routes: =>
+    new Routes(app:@.app).list_Raw()
+
   run: (random_Port)=>
     if random_Port
       @.port = 23000 + 3000.random()

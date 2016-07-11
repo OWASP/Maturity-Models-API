@@ -1,9 +1,15 @@
+Data_Files   = require '../backend/Data-Files'
+Data_Project = require '../backend/Data-Project'
+
 class Routes
   constructor: (options)->
     @.options = options || {}
     @.app     = @.options.app
+    @.data_Files   = new Data_Files()
+    @.data_Project = new Data_Project()
 
-  list: ()=>    
+
+  list_Raw: ()=>
     values = []
     if  @.app
       map_Stack = (prefix, stack)->                                         # method to map the express routes
@@ -19,6 +25,25 @@ class Routes
             
       map_Stack '', @.app._router?.stack                                    # start the mapping at the root
     
-    values 
+    values
+
+  list_Fixed: ()=>
+    keyword = ':team'
+    default_Project = 'bsimm'      # Issue 129 - Routes.list_Fixed add logic to also map other variables (like project)
+    list    = @.list_Raw()
+    values  = list                 # create copy we can use without breaking the for loop
+    for item,index in list
+      #console.log item
+      # if item.contains[':project']
+      #  list[index] = item.replace ':project', project
+
+      if item.contains keyword
+
+        values = values.remove_If_Contains(item)
+
+        for file in @.data_Files.files_Names(default_Project)
+          values.add(item.replace(keyword, file)
+                         .replace ':project', default_Project)
+    values
 
 module.exports = Routes

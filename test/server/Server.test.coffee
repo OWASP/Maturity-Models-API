@@ -103,6 +103,7 @@ describe 'server | Server', ->
                           "#{version}/project/list"
                           "#{version}/project/get/:project"
                           "#{version}/project/schema/:project"
+                          "#{version}/routes"
                           "#{version}/routes/list"
                           "#{version}/routes/list-raw"]
       current_Routes = @.routes()
