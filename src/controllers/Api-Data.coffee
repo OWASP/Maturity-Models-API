@@ -1,12 +1,12 @@
 Api_Base     = require './Api-Base'
 Data_Radar   = require '../backend/Data-Radar'
-Data_Files   = require '../backend/Data-Files'
+Data_Team    = require '../backend/Data-Team'
 Data_Stats   = require '../backend/Data-Stats'
 
 class Api_Data extends Api_Base
   constructor: ->
     @.data_Radar = new Data_Radar()
-    @.data_Files = new Data_Files()
+    @.data_Team  = new Data_Team()
     @.data_Stats = new Data_Stats()
 
     super()
@@ -26,7 +26,7 @@ class Api_Data extends Api_Base
     team    = req.params?.team
 
     if project and team
-      file_Data  = @.data_Files.get_File_Data project, team
+      file_Data  = @.data_Team.get_Team_Data project, team
       radar_Data = @.data_Radar.get_Radar_Data file_Data
       res.json radar_Data
 

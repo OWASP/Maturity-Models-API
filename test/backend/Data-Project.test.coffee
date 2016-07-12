@@ -7,7 +7,7 @@ describe 'backend | Data-Project', ->
     project = 'bsimm'
     data_Project = new Data_Project()
 
-  it 'constructor',->
+  it 'constructor',->    
     using data_Project, ->
       @.constructor.name.assert_Is 'Data_Project'
       @.data_Path.assert_Contains 'data'
@@ -39,6 +39,30 @@ describe 'backend | Data-Project', ->
       @.project_Schema(null ).assert_Is {}
       @.project_Schema('aaa').assert_Is {}
       @.project_Schema({}   ).assert_Is {}
+
+  it 'project_Path_Root', ->
+    using data_Project, ->
+      @.project_Path_Root('bsimm').assert_Folder_Exists()
+                    .folder_Name().assert_Is 'BSIMM-Graphs-Data'
+      @.project_Path_Root('samm' ).assert_Folder_Exists()
+                    .folder_Name().assert_Is 'OpenSAMM-Graphs-Data'
+      assert_Is_Null @.project_Path_Root 'asd'
+      assert_Is_Null @.project_Path_Root null
+
+  it 'project_Path_Teams', ->
+    using data_Project.project_Path_Teams('bsimm'), ->
+      @                              .assert_Folder_Exists()
+      @.folder_Name()                .assert_Is 'teams'
+      @.parent_Folder().folder_Name().assert_Is 'BSIMM-Graphs-Data'
+
+    using data_Project.project_Path_Teams('samm'), ->
+      @                              .assert_Folder_Exists()
+      @.folder_Name()                .assert_Is 'teams'
+      @.parent_Folder().folder_Name().assert_Is 'OpenSAMM-Graphs-Data'
+
+    using data_Project, ->
+      assert_Is_Null @.project_Path_Teams 'asd'
+      assert_Is_Null @.project_Path_Teams null
 
   it 'projects', ->
     using data_Project, ->      

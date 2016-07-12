@@ -1,9 +1,9 @@
-Data_Files   = require './Data-Files'
+Data_Team    = require './Data-Team'
 Data_Project = require './Data-Project'
 
 class Data_Stats
   constructor: ->
-    @.data_Files   = new Data_Files()
+    @.data_Team    = new Data_Team()
     @.data_Project = new Data_Project()
     @.score_Yes    = 1
     @.score_No     = 0
@@ -15,7 +15,7 @@ class Data_Stats
 
     if project and team
       schema = @.data_Project.project_Schema(project)
-      data   = @.data_Files.get_File_Data(project, team)
+      data   = @.data_Team.get_Team_Data(project, team)
       if data
         for key, activity of schema.activities        
           score = scores["level_#{activity.level}"] ?= { value: 0, percentage:'', activities: 0}
@@ -36,7 +36,7 @@ class Data_Stats
 
   teams_Scores: (project)=>
     all_Scores = {}
-    for team in @.data_Files.files_Names project
+    for team in @.data_Team.teams_Names project
       all_Scores[team] = @.team_Score project, team
     all_Scores
 

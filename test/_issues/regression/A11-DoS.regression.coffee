@@ -1,6 +1,6 @@
 require '../../../src/extra.methods'
 Data_Project = require '../../../src/backend/Data-Project'
-Data_Files   = require '../../../src/backend/Data-Files'
+Data_Team   = require '../../../src/backend/Data-Team'
 async        = require 'async'
 
 # These tests represent regression tests for DoS attacks
@@ -13,7 +13,7 @@ describe '_issues | regression | A11 - DoS', ->
     #   when count is 10   -> takes 106 ms       (80 ms    with no logging)
     #   when count is 100  -> takes 740 ms       (541 ms   with no logging)
     #   when count is 1000 -> takes 6,878 ms     (5,387 ms with no logging)
-    using new Data_Files(), ->
+    using new Data_Team(), ->
       count         = 5                                                                   # number of attempts to do
       project       = 'bsimm'                                                             # target project
       team          = "save-test"                                                         # target team
@@ -27,23 +27,23 @@ describe '_issues | regression | A11 - DoS', ->
         #console.log "[start] #{index}"                                                   # log start
 
         10.random().wait =>                                                               # small random delay to force proper async
-          file_Data = @.get_File_Data(project,team)                                       # get data
+          file_Data = @.get_Team_Data(project,team)                                       # get data
           (file_Data[index] is undefined).assert_Is_True()                                # confirm value is not set already
           file_Data[index] = index                                                        # set test value
-          @.set_File_Data_Json(project,team, file_Data.json_Str()).assert_Is_True()       # save it
-          @.get_File_Data(project,team).assert_Is file_Data                               # confirm save happened ok
+          @.set_Team_Data_Json(project,team, file_Data.json_Str()).assert_Is_True()       # save it
+          @.get_Team_Data(project,team).assert_Is file_Data                               # confirm save happened ok
           #console.log "[end  ] #{index}"                                                 # log end
           next()
 
       values = [0..count]                                                                 # async array
       async.each values, save_File, =>                                                    # async call
-        file_Data = @.get_File_Data(project,team)                                         # get data (after last async execution
+        file_Data = @.get_Team_Data(project,team)                                         # get data (after last async execution
         for index in values                                                               # check that all values are in there
           if index is value_To_Skip                                                       # except this one
             (file_Data[index] is undefined).assert_Is_True()
           else
             file_Data[index].assert_Is index
-        @.set_File_Data_Json(project,team, default_Value.json_Str()).assert_Is_True()     # restore file to default value
+        @.set_Team_Data_Json(project,team, default_Value.json_Str()).assert_Is_True()     # restore file to default value
         done()
 
   # https://github.com/DinisCruz/BSIMM-Graphs/issues/72

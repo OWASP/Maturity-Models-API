@@ -1,13 +1,11 @@
-Api_Base   = require './Api-Base'
-Data_Files  = require '../backend/Data-Files'
+Api_Base    = require './Api-Base'
+Data_Team   = require '../backend/Data-Team'
 Routes      = require '../server/Routes'
-#express     = require 'express'
 
 class Api_Team extends Api_Base
   constructor: (options)->
-    @.options    = options || {}
-    #@.router     = express.Router()
-    @.data_Files = new Data_Files()
+    @.options    = options || {}    
+    @.data_Team = new Data_Team()
     super()
 
   add_Routes: ()=>
@@ -20,7 +18,7 @@ class Api_Team extends Api_Base
     project = req.params?.project
     team    = req.params?.team                            # get team name from path
                                                           # validation is needed here, see https://github.com/DinisCruz/BSIMM-Graphs/issues/18
-    data = @.data_Files.get_File_Data project, team       # get data
+    data = @.data_Team.get_Team_Data project, team        # get data
     if data
       res.setHeader('Content-Type', 'application/json');  # todo: need default way to handle this type of responses
       
@@ -33,7 +31,7 @@ class Api_Team extends Api_Base
 
   list: (req, res)=>
     project = req.params?.project
-    res.send @.data_Files.files_Names(project)
+    res.send @.data_Team.teams_Names(project)
 
   save: (req, res)=>
     project  = req.params?.project
@@ -43,7 +41,7 @@ class Api_Team extends Api_Base
     else
       data = req.body                                             # from post body
     if filename and data                                          # check that both exist
-      if @.data_Files.set_File_Data_Json project, filename, data  # if set_File_Data_Json was ok
+      if @.data_Team.set_Team_Data_Json project, filename, data   # if set_Team_Data_Json was ok
         return res.send status: 'file saved ok'                   # send an ok status
     res.send error: 'save failed'                                 # if something failed send generic error message
 

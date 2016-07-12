@@ -14,7 +14,7 @@ describe 'backend | Data-Stats', ->
   it 'constructor',->
     using data_Stats, ->
       @.constructor.name.assert_Is 'Data_Stats'
-      @.data_Files  .constructor.name.assert_Is 'Data_Files'
+      @.data_Team   .constructor.name.assert_Is 'Data_Team'
       @.data_Project.constructor.name.assert_Is 'Data_Project'
       
   it 'team_Score', ->

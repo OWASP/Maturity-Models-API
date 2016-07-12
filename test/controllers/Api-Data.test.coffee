@@ -16,7 +16,7 @@ describe 'controllers | Api-Data', ->
     using api_Data, ->
       @           .constructor.name.assert_Is 'Api_Data'
       @.data_Radar.constructor.name.assert_Is 'Data_Radar'
-      @.data_Files.constructor.name.assert_Is 'Data_Files'
+      @.data_Team .constructor.name.assert_Is 'Data_Team'
       @.data_Stats.constructor.name.assert_Is 'Data_Stats'
 
   it 'add_Routes',->
@@ -33,7 +33,7 @@ describe 'controllers | Api-Data', ->
       json: (data)->
         data[team].level_1.value.assert_Is_Bigger_Than 17.2
     using api_Data, ->
-      @.teams_Scores(req,res)
+      @.teams_Scores(req,res) 
       
   it 'team_Radar', ->
     req =

@@ -1,27 +1,28 @@
 Data_Project = require './Data-Project'
 
-class Data_Files
+class Data_Team
   constructor: ()->
     @.data_Project = new Data_Project();
 
-    return null
-    
-  files_Names: (project)=>                  
-    (file.file_Name_Without_Extension() for file in @.files_Paths(project))
+  delete_Team: (project, team)->
+    return 42
+
+  teams_Names: (project)=>
+    (file.file_Name_Without_Extension() for file in @.teams_Paths(project))
 
   # Issue: DoS on Data-Project technique to map projects and project's teams #108
-  files_Paths: (project)=>
+  teams_Paths: (project)=>
     @.data_Project.project_Files(project)
 
-  find_File: (project, filename)=>
-    if filename
-      for file in @.files_Paths(project)                   # this can be optimized with a cache
-        if file.file_Name_Without_Extension() is filename
+  find_Team: (project, team)=>
+    if team
+      for file in @.teams_Paths(project)                   # this can be optimized with a cache
+        if file.file_Name_Without_Extension() is team
           return file          
     return null
 
-  get_File_Data: (project, filename) ->
-    file = @.find_File project, filename
+  get_Team_Data: (project, team) ->
+    file = @.find_Team project, team
     if file and file.file_Exists()
       switch file.file_Extension()
         when '.json'
@@ -35,16 +36,30 @@ class Data_Files
               return data_Or_Function
           catch err
             console.log err                           # need better solution to log these errors
-    return null  
+    return null
 
-
+  new_Team: (project)->
+    target_Folder = @.data_Project.project_Path_Teams(project)
+    if target_Folder
+      target_Folder = target_Folder.path_Combine 'new_teams' # for now put them here
+                                   .folder_Create()          # create if it doesn't exist
+      team_Name     = 5.random_Letters()
+      target_File   = "#{target_Folder}/#{team_Name}.json"
+      default_Data  = {}
+      default_Data.save_Json target_File
+      if target_File.file_Exists()        
+        return team_Name
+      
+    return null
+    
+  
   # Issue 26 - Data_Files.set_File_Data - DoS via file_Contents
   # Issue 121 - Race condition on set_File_Data_Json method
-  set_File_Data_Json: (project, filename, json_Data) ->
-    if not filename or not json_Data                    # check if both values are set
+  set_Team_Data_Json: (project, team, json_Data) ->
+    if not team or not json_Data                        # check if both values are set
       return null
 
-    if typeof json_Data isnt 'string'                   # check if file_Contents is a string
+    if typeof json_Data isnt 'string'                   # check if json_Data is a string
       return null
 
     try                                                 # confirm that json_Data parses OK into JSON
@@ -52,12 +67,12 @@ class Data_Files
     catch      
       return null
     
-    file_Path = @.find_File project, filename           # resolve file path based on file name
+    file_Path = @.find_Team project, team               # resolve team path based on team name
 
     if file_Path is null or file_Path.file_Not_Exists() # check if was able to resolve it
       return null
 
-    if file_Path.file_Extension() isnt '.json'          # check that the file is .json
+    if file_Path.file_Extension() isnt '.json'          # check that the team_Path file extension is .json
       return null
 
 
@@ -65,4 +80,4 @@ class Data_Files
 
     return file_Path.file_Contents() is json_Data       # confirm file was saved ok
     
-module.exports = Data_Files
+module.exports = Data_Team

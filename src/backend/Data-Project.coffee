@@ -17,17 +17,27 @@ class Data_Project
     return using (@.projects()[id]),->
       if @.path_Schema?.file_Exists()
           return @.path_Schema.load_Json()
-      return {}  
-    
+      return {}
+
+  project_Path_Root: (project)=>
+    projects = @.projects()                                 # this should be cached
+    if projects[project]
+      return projects[project].path_Root
+    return null
+
+  project_Path_Teams: (project)=>
+    projects = @.projects()                                 # this should be cached
+    if projects[project]
+      return projects[project].path_Teams
+    return null  
+
   # returns a list of current projects (which are defined by a folder containing an maturity-model.json )
   projects: ()=>
     projects = {}
-    public_Projects  = @.data_Path?.folders()                           || []
-    private_Projects = @.data_Path?.path_Combine('private').folders()   || []
-    target_Folders = public_Projects.concat private_Projects
+    target_Folders  = @.data_Path?.folders()
 
     for folder in target_Folders
-      config_File = folder.path_Combine @.config_File   # Issue: DoS on Data-Project technique to map projects and project's teams #108
+      config_File = folder.path_Combine @.config_File       # Issue: DoS on Data-Project technique to map projects and project's teams #108
       if config_File.file_Exists()
         data = config_File.load_Json()
         if data and data.key

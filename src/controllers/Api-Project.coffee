@@ -19,7 +19,6 @@ class Api_Project extends Api_Base
   list: (req,res)=>
     res.json @.data_Project.ids()
 
-
   schema: (req,res)=>
     project = req.params?.project
     res.json @.data_Project.project_Schema(project)
