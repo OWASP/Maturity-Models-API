@@ -5,8 +5,7 @@ class Data_Team
     @.data_Project = new Data_Project();
 
   delete_Team: (project, team)->
-    team_Path = @.team_Path project, team
-    console.log team_Path
+    team_Path = @.team_Path project, team  
     if team_Path
       return team_Path.file_Delete()
     return false

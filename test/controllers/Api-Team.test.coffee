@@ -2,8 +2,10 @@ Api_Team = require '../../src/controllers/Api-Team'
 
 describe 'controllers | Api-Team', ->
   api_Team = null
+  project  = null
 
   before ->
+    project = 'bsimm'
     using new Api_Team(), ->
       api_Team = @
 
@@ -16,12 +18,23 @@ describe 'controllers | Api-Team', ->
   it 'add_Routes', ->
     using api_Team, ->
       @.add_Routes()
-      @.router.stack.assert_Size_Is 3   
+      @.router.stack.assert_Size_Is 5
 
+  it 'delete', ->
+    using api_Team, ->
+      team_Name = @.data_Team.new_Team project
+      req = params : project : project , team : team_Name
+      res = send: (data)-> data.status.assert_Is 'Team Deleted'
+      api_Team.delete(req, res)
+
+  it 'delete (no project)', ->
+    req = params : null
+    res = send: (data)-> data.error.assert_Is 'Team deletion failed'
+    api_Team.delete(req, res)
   it 'get', ->
     req =
       params :
-        project: 'bsimm'
+        project: project
         team:    'team-A'
     res =
       setHeader: (name, value)->
@@ -36,7 +49,7 @@ describe 'controllers | Api-Team', ->
   it 'get (pretty)', ->
     req =
       params :
-        project: 'bsimm'
+        project: project
         team   : 'team-A'
       query:
         pretty : ''
@@ -61,9 +74,19 @@ describe 'controllers | Api-Team', ->
     using api_Team, ->
       @.get(req, res)
 
+  it 'new', ->
+    req = params : project : project
+    res = send: (data)-> data.status.assert_Is 'Ok'
+    api_Team.new(req, res)
+
+  it 'new (no project)', ->
+    req = params : null
+    res = send: (data)-> data.error.assert_Is 'New team creation failed'
+    api_Team.new(req, res)
+    
   it 'list', ->
     req =
-      params: project: 'bsimm'
+      params: project: project
     res =
       send: (data)->
         data.assert_Size_Is_Bigger_Than 3
@@ -91,7 +114,7 @@ describe 'controllers | Api-Team', ->
 
     req =
       params:
-        project: 'bsimm'
+        project: project
         team   : file_Name
       body     : changed_Data.json_Str()
 
