@@ -5,7 +5,11 @@ class Data_Team
     @.data_Project = new Data_Project();
 
   delete_Team: (project, team)->
-    return 42
+    team_Path = @.team_Path project, team
+    console.log team_Path
+    if team_Path
+      return team_Path.file_Delete()
+    return false
 
   teams_Names: (project)=>
     (file.file_Name_Without_Extension() for file in @.teams_Paths(project))
@@ -14,7 +18,7 @@ class Data_Team
   teams_Paths: (project)=>
     @.data_Project.project_Files(project)
 
-  find_Team: (project, team)=>
+  team_Path: (project, team)=>
     if team
       for file in @.teams_Paths(project)                   # this can be optimized with a cache
         if file.file_Name_Without_Extension() is team
@@ -22,13 +26,13 @@ class Data_Team
     return null
 
   get_Team_Data: (project, team) ->
-    file = @.find_Team project, team
+    file = @.team_Path project, team
     if file and file.file_Exists()
       switch file.file_Extension()
         when '.json'
           return file.load_Json()
         when '.coffee'                                # Issue 69 - Support for coffee file to create dynamic data set's allow RCE
-          try
+          try                    
             data_Or_Function = require(file)
             if data_Or_Function instanceof Function   # check if what was received from the coffee script is an object or an function
               return data_Or_Function()
@@ -63,11 +67,11 @@ class Data_Team
       return null
 
     try                                                 # confirm that json_Data parses OK into JSON
-      JSON.parse json_Data                              
-    catch      
+      JSON.parse json_Data
+    catch
       return null
-    
-    file_Path = @.find_Team project, team               # resolve team path based on team name
+
+    file_Path = @.team_Path project, team               # resolve team path based on team name
 
     if file_Path is null or file_Path.file_Not_Exists() # check if was able to resolve it
       return null
@@ -76,7 +80,7 @@ class Data_Team
       return null
 
 
-    file_Path.file_Write json_Data                      # after all checks save file 
+    file_Path.file_Write json_Data                      # after all checks save file
 
     return file_Path.file_Contents() is json_Data       # confirm file was saved ok
     

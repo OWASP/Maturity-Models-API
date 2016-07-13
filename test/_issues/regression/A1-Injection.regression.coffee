@@ -89,7 +89,7 @@ describe '_regression | A1 - Injection', ->
       new_File_Contents      = 'module.exports = ()-> 40+2'
       project                = 'bsimm'
       file_Name              = 'test-coffee-data'
-      target_Folder          = @.find_Team(project, 'team-A').parent_Folder()
+      target_Folder          = @.team_Path(project, 'team-A').parent_Folder()
 
       file_Path              = target_Folder.path_Combine file_Name + '.coffee'
 

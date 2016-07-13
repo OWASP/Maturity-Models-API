@@ -2,10 +2,12 @@ Data_Team = require '../../src/backend/Data-Team'
 
 describe 'backend | Data-Team', ->
   data_Team = null
-  project   = null
+  project   = null  
+  team      = null
 
   beforeEach ->
-    project    = 'bsimm'
+    project   = 'bsimm'
+    team      = 'team-A'
     data_Team = new Data_Team()
 
   it 'constructor',->
@@ -14,7 +16,18 @@ describe 'backend | Data-Team', ->
       
   it 'delete_Team', ->
     using data_Team, ->
-      console.log @.delete_Team()
+      temp_Team = @.new_Team( project           ).assert_Size_Is(5).str()
+      team_Path = @.team_Path(project, temp_Team).assert_File_Exists()
+      @.get_Team_Data(        project, temp_Team).assert_Is {}
+      @.delete_Team(          project, temp_Team).assert_Is_True()
+
+      team_Path.assert_File_Not_Exists()
+      assert_Is_Null @.get_Team_Data project, temp_Team
+
+      @.delete_Team( project, temp_Team).assert_Is_False()                # try to delete again
+      @.delete_Team( project, null     ).assert_Is_False()                # try with bad team name
+      @.delete_Team( null   , temp_Team).assert_Is_False()                # try with bad project name
+      @.delete_Team( null   , null     ).assert_Is_False()                # try with both bad
 
   it 'teams_Names', ->
     using data_Team, ->
@@ -27,33 +40,29 @@ describe 'backend | Data-Team', ->
       @.teams_Paths(project).assert_Not_Empty()
       @.teams_Paths(project).first().assert_File_Exists()
 
-  it 'find_Team', ->
+  it 'team_Path', ->
     using data_Team, ->
-      team_A = @.find_Team project, 'team-A'
+      team_A = @.team_Path project, 'team-A'
       team_A.assert_File_Exists()
 
-      assert_Is_Null @.find_Team 'demo', 'Team-A'  # search is case sensitive
-      assert_Is_Null @.find_Team 'demo', 'aaaaaa'
-      assert_Is_Null @.find_Team 'demo', null
-      assert_Is_Null @.find_Team null, 'team-A'
-      assert_Is_Null @.find_Team 'aaaa', 'team-A'
+      assert_Is_Null @.team_Path 'demo', 'Team-A'  # search is case sensitive
+      assert_Is_Null @.team_Path 'demo', 'aaaaaa'
+      assert_Is_Null @.team_Path 'demo',  null
+      assert_Is_Null @.team_Path  null , 'team-A'
+      assert_Is_Null @.team_Path 'aaaa', 'team-A'
 
-  it 'get_Team_Data', ()->
-    project  = 'bsimm'
-    filename = 'team-A'
-    using data_Team, ->
-      @.get_Team_Data project, filename
+  it 'get_Team_Data', ()->    
+    using data_Team, ->      
+      @.get_Team_Data project, team
           .metadata.team.assert_Is 'Team A'
 
-  it 'new_Team', ->
-    project  = 'bsimm'
+  it 'new_Team', ->    
     using data_Team, ->
       new_File_Id   = @.new_Team project
-      new_File_Path = @.find_Team project, new_File_Id
+      new_File_Path = @.team_Path project, new_File_Id
       new_File_Path.assert_File_Exists()
 
-  it 'set_Team_Data_Json', ->
-    project     = 'bsimm'
+  it 'set_Team_Data_Json', ->    
     target_File = 'team-C'
     good_Value  = 'Team C'
     temp_Value  = 'BBBBB'

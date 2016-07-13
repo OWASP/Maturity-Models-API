@@ -10,7 +10,7 @@ describe '_security | A1 - Injection', ->
     using new Data_Team(), ->
       project = 'bsimm'
       file_Name = "save-test"
-      file_Path = @.find_Team(project,file_Name)
+      file_Path = @.team_Path(project,file_Name)
       create_File = (size)=>
         new_File_Contents = { data: size.random_String() }.json_Str()
         file_Path.assert_File_Exists()                              # confirm file exist (since the current version only allows files to be modified

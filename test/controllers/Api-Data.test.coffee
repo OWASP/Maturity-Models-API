@@ -33,7 +33,7 @@ describe 'controllers | Api-Data', ->
       json: (data)->
         data[team].level_1.value.assert_Is_Bigger_Than 17.2
     using api_Data, ->
-      @.teams_Scores(req,res) 
+      @.teams_Scores(req,res)
       
   it 'team_Radar', ->
     req =
