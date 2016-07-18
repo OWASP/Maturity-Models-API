@@ -13,10 +13,11 @@ describe 'backend | Data-Team', ->
   it 'constructor',->
     using data_Team, ->
       @.constructor.name.assert_Is 'Data_Team'
-      
+      @.new_Team_Prefix .assert_Is 'team-' 
+
   it 'delete_Team', ->
     using data_Team, ->
-      temp_Team = @.new_Team( project           ).assert_Size_Is(5).str()
+      temp_Team = @.new_Team( project           ).assert_Size_Is(10).str()
       team_Path = @.team_Path(project, temp_Team).assert_File_Exists()
       @.get_Team_Data(        project, temp_Team).assert_Is {}
       @.delete_Team(          project, temp_Team).assert_Is_True()
@@ -59,6 +60,7 @@ describe 'backend | Data-Team', ->
   it 'new_Team', ->    
     using data_Team, ->
       new_File_Id   = @.new_Team project
+      new_File_Id.assert_Contains @.new_Team_Prefix
       new_File_Path = @.team_Path project, new_File_Id
       new_File_Path.assert_File_Exists()
 

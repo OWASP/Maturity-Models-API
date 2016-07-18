@@ -31,6 +31,7 @@ describe 'controllers | Api-Team', ->
     req = params : null
     res = send: (data)-> data.error.assert_Is 'Team deletion failed'
     api_Team.delete(req, res)
+
   it 'get', ->
     req =
       params :

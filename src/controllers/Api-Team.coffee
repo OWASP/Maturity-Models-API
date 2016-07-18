@@ -4,8 +4,8 @@ Routes      = require '../server/Routes'
 
 class Api_Team extends Api_Base
   constructor: (options)->
-    @.options    = options || {}    
-    @.data_Team = new Data_Team()
+    @.options         = options || {}
+    @.data_Team       = new Data_Team()
     super()
 
   add_Routes: ()=>

@@ -2,7 +2,8 @@ Data_Project = require './Data-Project'
 
 class Data_Team
   constructor: ()->
-    @.data_Project = new Data_Project();
+    @.data_Project    = new Data_Project();
+    @.new_Team_Prefix = 'team-'
 
   delete_Team: (project, team)->
     team_Path = @.team_Path project, team  
@@ -46,7 +47,7 @@ class Data_Team
     if target_Folder
       target_Folder = target_Folder.path_Combine 'new_teams' # for now put them here
                                    .folder_Create()          # create if it doesn't exist
-      team_Name     = 5.random_Letters()
+      team_Name     = @.new_Team_Prefix + 5.random_Letters()
       target_File   = "#{target_Folder}/#{team_Name}.json"
       default_Data  = {}
       default_Data.save_Json target_File
