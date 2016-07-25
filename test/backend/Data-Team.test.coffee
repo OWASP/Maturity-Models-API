@@ -87,13 +87,20 @@ describe 'backend | Data-Team', ->
     target_File = 'team-C'
     bad_Json    = '{ not-good : json } '
     using data_Team, ->
-      assert_Is_Null data_Team.set_Team_Data_Json target_File, bad_Json
+      assert_Is_Null data_Team.set_Team_Data_Json project, target_File, bad_Json
 
   it 'set_Team_Data_Json (not able to create new file)', ()->
     filename = 'temp_file.json'
     contents = '{ "aaa" : 123 }'
     using data_Team, ->
-      @.set_Team_Data_Json filename, contents
+      @.set_Team_Data_Json project, filename, contents
+      assert_Is_Null @.get_Team_Data filename, contents
+
+  it 'set_Team_Data_Json (can not edit coffee files', ()->
+    filename = 'team-random'
+    contents = '{ }'
+    using data_Team, ->
+      @.set_Team_Data_Json project, filename, contents
       assert_Is_Null @.get_Team_Data filename, contents
       
  
@@ -102,7 +109,11 @@ describe 'backend | Data-Team', ->
       assert_Is_Null @.set_Team_Data_Json()
       assert_Is_Null @.set_Team_Data_Json 'aaa'
       assert_Is_Null @.set_Team_Data_Json null, 'bbbb'
-      assert_Is_Null @.set_Team_Data_Json 'aaa', {}
+      assert_Is_Null @.set_Team_Data_Json 'aaa', null
+      assert_Is_Null @.set_Team_Data_Json 'aaa', 'bbb', {}
+      assert_Is_Null @.set_Team_Data_Json 'aaa', 'bbb', 'ccccc'
+      assert_Is_Null @.set_Team_Data_Json 'aaa', 'bbb', '{}'
+
       
         
 

@@ -75,7 +75,7 @@ class Data_Team
 
     if file_Path is null or file_Path.file_Not_Exists() # check if was able to resolve it
       return null
-
+       
     if file_Path.file_Extension() isnt '.json'          # check that the team_Path file extension is .json
       return null
 
