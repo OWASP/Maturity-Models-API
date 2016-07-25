@@ -10,15 +10,19 @@ describe 'controllers | Api-Logs', ->
   before ->  
     log_File_Name     = 'tmp_log_file - '.add_5_Random_Letters()
     log_File_Contents = 'some log data - '.add_5_Random_Letters()
-    tmp_Log_Folder    = './tmp_logs'.folder_Create().real_Path()
+    tmp_Log_Folder    = './tmp_logs'
 
-    tmp_Log_Folder.path_Combine(log_File_Name).file_Write(log_File_Contents)
     using new Api_Logs(), ->
       api_Logs = @
       @.logs_Folder = tmp_Log_Folder
+      @._ensure_Log_Folder_Exists()
+      tmp_Log_Folder.path_Combine(log_File_Name).file_Write(log_File_Contents)
 
   after ->
     tmp_Log_Folder.folder_Delete_Recursive().assert_Is_True()
+
+  it '_ensure_Log_Folder_Exists', ->
+    # tested in 'before' (above)
 
   it 'add_Routes', ->
     using new Api_Logs(), ->

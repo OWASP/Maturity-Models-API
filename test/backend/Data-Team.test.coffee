@@ -57,6 +57,30 @@ describe 'backend | Data-Team', ->
       @.get_Team_Data project, team
           .metadata.team.assert_Is 'Team A'
 
+  it 'get_Team_Data (coffee)',()->
+    using data_Team, ->
+      team = 'team-random'
+      @.get_Team_Data project, team
+          .metadata.team.assert_Is 'Team Random'
+
+  it 'get_Team_Data (bad coffee file)',()->    
+    using data_Team, ->
+      teams_Path  =  @.data_Project.project_Path_Teams project
+      test_Coffee = (team_Name, team_Code, expected_Result)=>
+        teams_Path.path_Combine(team_Name + '.coffee').file_Create team_Code
+        if expected_Result
+          @.get_Team_Data(project, team_Name).assert_Is expected_Result
+        else
+          assert_Is_Null @.get_Team_Data(project, team_Name)
+        @.delete_Team(project, team_Name).assert_Is_True()
+        assert_Is_Null @.get_Team_Data(project, team_Name)
+
+      test_Coffee '_temp-team_1', 'module.exports = -> 40 +2', 42
+      test_Coffee '_temp-team_2', 'module.exports = -> 40 +3', 43
+      test_Coffee '_temp-team_3', 'module.exports = 40 +3'   , 43
+      test_Coffee '_temp-team_4', 'AAA.exports    = 40 +3'   , null
+
+
   it 'new_Team', ->    
     using data_Team, ->
       new_File_Id   = @.new_Team project

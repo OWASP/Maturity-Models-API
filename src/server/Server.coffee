@@ -7,18 +7,19 @@ load              = require 'express-load'
 bodyParser        = require('body-parser');
 d3                = require 'd3'
 morgan            = require 'morgan'
-cheerio           = require 'cheerio'
 Routes            = require './Routes'
 Redirects         = require './Redirects'
+Api_Logs          = require '../controllers/Api-Logs'              # todo: move to a log service
 
 require 'fluentnode'
 
 class Server
   constructor: (options)->
-    @.app     = null
-    @.options = options || {}
-    @.server  = null
-    @.port    = @.options.port || process.env.PORT || 3000
+    @.app      = null
+    @.options  = options || {}
+    @.server   = null
+    @.port     = @.options.port || process.env.PORT || 3000
+    @.api_Logs = new Api_Logs()
 
   setup_Server: =>    
     @.app = express()
@@ -28,11 +29,13 @@ class Server
     @.app.use bodyParser.json()
 
     # test route
-    @.app.get '/ping'      , (req, res) => res.end      'pong'
+    @.app.get '/ping', (req, res) =>          # todo: move to another location
+      res.end 'pong'
     @
 
   add_Angular_Route: ()=>
-    @.app.get '/view*'        , (req, res) => res.sendFile __dirname.path_Combine('../../../ui/.dist/html/index.html')
+    @.app.get '/view*', (req, res) =>
+      res.sendFile __dirname.path_Combine('../../../ui/.dist/html/index.html')
     @
 
   add_Bower_Support: ()=>
@@ -61,15 +64,9 @@ class Server
     @
 
   setup_Logging: =>
-    fs = require 'fs'
-    @.logs_Folder  = __dirname.path_Combine('../../../../logs')     # Issue 126 - Consolidate location of logs folder path
-    if @.logs_Folder.folder_Not_Exists()                            # note: docker was having a problem with the creation of this folder
-      @.logs_Folder.folder_Create()                                 #       which is why this is now done on the Docker file (need to find root cause)
-                                                                    # Issue 97 - Find root cause of logs folder not created in docker
-
     @.logs_Options =
       date_format: 'YYYY_MM_DD-hh_mm',
-      filename   : @.logs_Folder + '/logs-%DATE%.log',
+      filename   : @.api_Logs.logs_Folder + '/logs-%DATE%.log',
       frequency  : '12h',
       verbose    : false
 
@@ -101,13 +98,6 @@ class Server
   stop: (callback)=>
     if @.server
       @.server.close =>
-        callback() if callback    
-
-  get_Html: (virtual_Path, callback)->
-    @.server_Url().add(virtual_Path).GET (data)->
-      if data 
-        $ = cheerio.load(data)
-      callback $, data
-
+        callback() if callback
 
 module.exports = Server

@@ -5,7 +5,7 @@ describe 'controllers | Api-Data', ->
   project  = null
   team     = null
 
-  beforeEach ->
+  beforeEach ->    
     using new Api_Data(), ->
       api_Data = @
       project  = 'bsimm'
@@ -21,10 +21,9 @@ describe 'controllers | Api-Data', ->
 
   it 'add_Routes',->
     using api_Data, ->
-      #@.routes_Added.assert_Is [ { method: 'get', path: '/data/:project/:team/radar', action: @.radar }, { method: 'get', path: '/data/:project/:team/score', action: @.score } ]
       @.routes_Added.size().assert_Is 3
 
-  it 'projects_Scores', ->
+  it 'projects_Scores', ->    
     req = 
       params:
         project: project
