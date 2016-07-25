@@ -47,21 +47,21 @@ describe '_issues | regression | A11 - DoS', ->
         done()
 
   # https://github.com/DinisCruz/BSIMM-Graphs/issues/72
-  #todo: move to QA test-perforance, since it is creating a number of false positives on wallaby
-  xit 'Issue 72 - Project list gets data from File System and could cause DoS', ()->
+  # this issue is now even less problematic (after recent refactorings)
+  it 'Issue 72 - Project list gets data from File System and could cause DoS', ()->
     using new Data_Project(), ->
       start = Date.now();
       test_List = (index, next)=>
         @.projects().assert_Is_Object()
         next()
 
-      #items = [0..0     ]   # 1 takes 15ms
-      items = [0..10   ]   # 10 takes 50ms
-      #items = [0..100  ]   # 100 takes 250ms
-      #items = [0..1000 ]   # 1000 takes 2250ms
-      #items = [0..5000 ]   # 5000 takes 1200ms
+      #items = [0..0     ]  # 1    takes 0ms    (before it was 15ms   )
+      items = [0..10   ]    # 10   takes 20ms    (before it was 50ms   )
+      #items = [0..100  ]   # 100  takes 70ms   (before it was 250ms  )
+      #items = [0..1000 ]   # 1000 takes 320ms  (before it was 2250ms )
+      #items = [0..5000 ]   # 5000 takes 1698ms (before it was 12000ms)
       async.each items, test_List, ->
         duration = Date.now() - start
-        duration.assert_In_Between(10,120)        # in travis we had execution times of less than 25ms
+        duration.assert_In_Between(1,100)        # in travis we had execution times of less than 25ms
 
 

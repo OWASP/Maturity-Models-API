@@ -24,7 +24,7 @@ describe '_supertest | Api-Project', ->
     .expect 200
     .expect 'Content-Type', /json/
     .expect (res)->
-      res.body.assert_Contains ['empty', 'team-A']
+      res.body.assert_Contains [ 'team-A']
 
   it '/project/schema/bsimm', ->
     request(app)
