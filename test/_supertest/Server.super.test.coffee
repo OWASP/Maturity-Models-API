@@ -29,7 +29,7 @@ describe '_supertest | Server', ->
       .expect (res)->
         res.headers.location.assert_Is '/view'
 
-  it.only '/view', ->
+  it '/view', ->
     if global['wallaby']
       status = 404
       text   = 'code/ui/.dist/html/index.html'
