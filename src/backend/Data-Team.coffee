@@ -59,6 +59,8 @@ class Data_Team
   
   # Issue 26 - Data_Files.set_File_Data - DoS via file_Contents
   # Issue 121 - Race condition on set_File_Data_Json method
+  # RISK-5: set_File_Data does not provide detailed information on why it failed  - https://maturity-models.atlassian.net/browse/RISK-5
+
   set_Team_Data_Json: (project, team, json_Data) ->
     if not team or not json_Data                        # check if both values are set
       return null
