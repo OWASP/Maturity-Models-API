@@ -45,7 +45,7 @@ describe 'backend | Data-Project', ->
       @.project_Path_Root('bsimm').assert_Folder_Exists()
                     .folder_Name().assert_Is 'BSIMM-Graphs-Data'
       @.project_Path_Root('samm' ).assert_Folder_Exists()
-                    .folder_Name().assert_Is 'OpenSAMM-Graphs-Data'
+                    .folder_Name().assert_Is 'OwaspSAMM'
       assert_Is_Null @.project_Path_Root 'asd'
       assert_Is_Null @.project_Path_Root null
 
@@ -58,7 +58,7 @@ describe 'backend | Data-Project', ->
     using data_Project.project_Path_Teams('samm'), ->
       @                              .assert_Folder_Exists()
       @.folder_Name()                .assert_Is 'teams'
-      @.parent_Folder().folder_Name().assert_Is 'OpenSAMM-Graphs-Data'
+      @.parent_Folder().folder_Name().assert_Is 'OwaspSAMM'
 
     using data_Project, ->
       assert_Is_Null @.project_Path_Teams 'asd'
