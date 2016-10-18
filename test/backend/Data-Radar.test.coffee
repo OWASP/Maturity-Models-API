@@ -1,20 +1,18 @@
 Data_Radar = require '../../src/backend/Data-Radar'
+Data_Team  = require '../../src/backend/Data-Team'
 
 describe 'backend | Data-Project', ->
-  data_Radar   = null
-  project      = null
-  team         = null
-  test_Data    = null
+  data_Radar      = null
+  project         = null
+  team            = null
+  test_Data       = null
+  expected_Result = null
+
   beforeEach ->
     project = 'bsimm'
     team    = 'team-A'
-    test_Data =
-      activities:
-        Governance  : { 'SM.1.1': 'Yes'  , 'SM.1.4': 'NA'   , 'SM.2.3': 'Yes'  , 'CP.1.1'  : 'Maybe' }
-        Intelligence: { 'AM1.3' : 'Maybe', 'AM1.4' : 'Maybe', 'SDF1.1': 'Maybe', 'SDF.1.1' : 'Maybe' }
-        SSDL        : { 'AA.1.1': 'Yes'  , 'AA.1.4': 'NA'   , 'CR.1.1': 'Yes'  , 'CR.1.2'  : 'Yes'   }
-        Deployment  : { 'PT.1.1': 'Maybe', 'PT.1.2': 'Maybe', 'SE.2.2': 'Yes'  , 'CMVM.2.3': 'Yes'   }
-
+    test_Data = new Data_Team().get_Team_Data(project, team)
+    expected_Result = { SM: 0.75, CMVM: 1.0714, SE: 1.25, PT: 2.4375, ST: 3, CR: 3, AA: 3, SR: 0.75, SFD: 0.25, AM: 0.9375, T: 1.3125, CP: 1.1667 }
     data_Radar = new Data_Radar()
 
   it 'constructor',->
@@ -30,8 +28,8 @@ describe 'backend | Data-Project', ->
 
   it 'mapData (calculates radar values)', ->
     using data_Radar, ->
-      expected_Result = { "SM": 1.0, "CMVM": 0.6, "SE" : 0.6, "PE": 0.6, "ST": 0.2, "CR": 1, "AA": 0.6, "SR"  : 0.2, "SFD": 0.2, "AM": 0.2, "T" : 0.2, "CP": 0.3 }
-      @.mapData(test_Data).assert_Is expected_Result
+      data = @.mapData(test_Data)
+      data.assert_Is expected_Result
 
 
   # Other and regression tests
@@ -39,7 +37,7 @@ describe 'backend | Data-Project', ->
     using new Data_Radar(), ->
       using @.get_Radar_Data(), ->
         @.first().axes.first().assert_Is { axis: 'Strategy & Metrics', xOffset: 1, value: 0 },
-        @.second().axes.first().assert_Is { value: 0.2}
+        @.second().axes.first().assert_Is { value: 0.1}
 
   it 'Issue xyz - JS Decimal bug is causing Radar calculations to be wrong', ->
     using data_Radar, ->
@@ -50,6 +48,5 @@ describe 'backend | Data-Project', ->
       result['CMVM'].assert_Is_Not wrong_Value
       result['SE'  ].assert_Is_Not wrong_Value
 
-      correct_Value = 0.60
-      result['CMVM'].assert_Is correct_Value
-      result['SE'  ].assert_Is correct_Value
+      result['CMVM'].assert_Is 1.0714
+      result['SE'  ].assert_Is 1.25
