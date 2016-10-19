@@ -24,7 +24,10 @@ describe '_supertest | Api-Data', ->
       .expect (res)->
         callback res.body
 
+  it '/data/:project/radar/fields', ()->
+    check_Path_Json "/data/#{project}/radar/fields", (data)->
+      data.axes.first().assert_Is { axis: "Strategy & Metrics" , xOffset: 1, value: 0}
+
   it '/data/:project/:team/radar', ()->
     check_Path_Json "/data/#{project}/#{team}/radar", (data)->
-      data.first().axes.first().assert_Is { axis: "Strategy & Metrics" , xOffset: 1, value: 0}
- 
+      data.axes.first().assert_Is { value: 2.25}

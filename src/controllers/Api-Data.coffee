@@ -12,12 +12,18 @@ class Api_Data extends Api_Base
     super()
 
   add_Routes: ->
-    @.add_Route 'get' , '/project/scores/:project'    , @.teams_Scores
-    @.add_Route 'get' , '/data/:project/:team/radar'  , @.team_Radar
-    @.add_Route 'get' , '/data/:project/:team/score'  , @.team_Score
+    @.add_Route 'get' , '/project/scores/:project'       , @.teams_Scores
+    @.add_Route 'get' , '/data/:project/radar/fields'    , @.radar_Fields
+    @.add_Route 'get' , '/data/:project/:team/radar'     , @.team_Radar
+    @.add_Route 'get' , '/data/:project/:team/score'     , @.team_Score
+
     @
 
-  teams_Scores : (req, res)=>
+  radar_Fields: (req, res)=>
+    project = req.params?.project
+    res.json @.data_Radar.get_Radar_Fields project
+
+  teams_Scores: (req, res)=>
     project = req.params?.project
     res.json @.data_Stats.teams_Scores project
 
@@ -26,9 +32,13 @@ class Api_Data extends Api_Base
     team    = req.params?.team
 
     if project and team
-      file_Data  = @.data_Team.get_Team_Data project, team
-      radar_Data = @.data_Radar.get_Radar_Data file_Data
+      team_Data  = @.data_Team.get_Team_Data project, team
+      radar_Data  = @.data_Radar.get_Radar_Data team_Data
+
+      #radar_Data = @.data_Radar.get_Radar_Data file_Data
+      #radar_Data  = @.data_Radar.get_Team_Data project, team
       res.json radar_Data
+
 
   team_Score: (req, res)=>
     project = req.params?.project

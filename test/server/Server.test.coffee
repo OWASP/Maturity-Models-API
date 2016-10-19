@@ -92,6 +92,7 @@ describe 'server | Server', ->
       version = '/api/v1'
       expected_Routes = [ '/', '/ping',  '/view*'
                           "#{version}/project/scores/:project"
+                          "#{version}/data/:project/radar/fields"
                           "#{version}/data/:project/:team/radar"
                           "#{version}/data/:project/:team/score"
                           "#{version}/logs/path"

@@ -21,7 +21,7 @@ describe 'controllers | Api-Data', ->
 
   it 'add_Routes',->
     using api_Data, ->
-      @.routes_Added.size().assert_Is 3
+      @.routes_Added.size().assert_Is 4
 
   it 'projects_Scores', ->    
     req = 
@@ -33,7 +33,18 @@ describe 'controllers | Api-Data', ->
         data[team].level_1.value.assert_Is_Bigger_Than 17.2
     using api_Data, ->
       @.teams_Scores(req,res)
-      
+
+  it 'radar_Fields', ->
+    req =
+      params:
+        project: project
+    res =
+      json: (data)->
+        data.axes.first().assert_Is  { axis: 'Strategy & Metrics', xOffset: 1, value: 0 },
+
+    using api_Data, ->
+      @.radar_Fields(req,res)
+
   it 'team_Radar', ->
     req =
       params:
@@ -41,7 +52,7 @@ describe 'controllers | Api-Data', ->
         team   : team
     res =
       json: (data)->
-        data.first().axes.first().axis.assert_Is 'Strategy & Metrics'
+        data.axes.first().value.assert_Is 0.75 #'Strategy & Metrics'
 
     using api_Data, ->
       @.team_Radar(req,res)

@@ -9,14 +9,14 @@ class Data_Radar
     @.key_Yes       = 'Yes'
     @.key_Maybe     = 'Maybe'
 
-  get_Radar_Data: (file_Data)=>
-    data = []
-    data.push @.get_Radar_Fields()
-    #data.push @.get_Default_Data()           #todo this needs to be implemented as supporting multiple data sets
-    #data.push map_Team_Data(level_1_Data)
-    data.push @.get_Team_Data @.mapData(file_Data)
-    data
-      
+#  get_Radar_Data: (file_Data)=>
+#    data = []
+#    data.push @.get_Radar_Fields()
+#    #data.push @.get_Default_Data()           #todo this needs to be implemented as supporting multiple data sets
+#    #data.push map_Team_Data(level_1_Data)
+#    data.push @.get_Team_Data @.mapData(file_Data)
+#    data
+
   get_Radar_Fields: ()->
     axes: [
       { axis: "Strategy & Metrics"        , xOffset: 1    , value: 0},
@@ -33,25 +33,27 @@ class Data_Radar
       { axis: "Compliance and Policy"     , xOffset: 100  , value: 0},
     ]
     
-  get_Team_Data: (data)->
+  #get_Team_Data: (data)->
+  get_Radar_Data: (team__Data)=>
+    data = @.map_Data team__Data
     {
       axes: [
-        {value: data.SM   },  # Strategy & Metrics
-        {value: data.CMVM },  # Configuration & Vulnerability Management
-        {value: data.SE   },  # Software Environment
-        {value: data.PT   },  # Penetration Testing
-        {value: data.ST   },  # Security Testing
-        {value: data.CR   },  # Code Review
-        {value: data.AA   },  # Architecture Analysis
-        {value: data.SR   },  # Standards & Requirements
-        {value: data.SFD  },  # Security Features & Design
-        {value: data.AM   },  # Attack Models
-        {value: data.T    },  # Training
-        {value: data.CP   },  # Compliance and Policy
+        { value: data.SM   },  # Strategy & Metrics
+        { value: data.CMVM },  # Configuration & Vulnerability Management
+        { value: data.SE   },  # Software Environment
+        { value: data.PT   },  # Penetration Testing
+        { value: data.ST   },  # Security Testing
+        { value: data.CR   },  # Code Review
+        { value: data.AA   },  # Architecture Analysis
+        { value: data.SR   },  # Standards & Requirements
+        { value: data.SFD  },  # Security Features & Design
+        { value: data.AM   },  # Attack Models
+        { value: data.T    },  # Training
+        { value: data.CP   },  # Compliance and Policy
       ]
     }  
 
-  mapData: (file_Data)=>
+  map_Data: (file_Data)=>
     calculate = (prefix)=>
       score  = 0
       result = prefix: prefix, count :0 , yes_Count : 0, maybe_Count : 0
