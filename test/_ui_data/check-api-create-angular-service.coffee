@@ -34,19 +34,16 @@ describe '_ui_data | create api , create angular service' ,->
   it 'api/v1/project/list'        , -> make_Request_And_Save "#{version}/project/list"
 
   #bsimm
-  it '/project/schema/bsimm'      , -> make_Request_And_Save "#{version}/project/schema/bsimm"
-  it '/team/bsimm/get/team-A'     , -> make_Request_And_Save "#{version}/team/bsimm/get/team-A"
-  it '/data/bsimm/team-A/score'   , -> make_Request_And_Save "#{version}/data/bsimm/team-A/score"
-  it '/data/bsimm/team-A/radar'   , -> make_Request_And_Save "#{version}/data/bsimm/team-A/radar"
   it '/data/bsimm/level-1/radar'  , -> make_Request_And_Save "#{version}/data/bsimm/level-1/radar"
   it '/data/bsimm/level-2/radar'  , -> make_Request_And_Save "#{version}/data/bsimm/level-2/radar"
   it '/data/bsimm/level-3/radar'  , -> make_Request_And_Save "#{version}/data/bsimm/level-3/radar"
+  it '/data/bsimm/team-A/score'   , -> make_Request_And_Save "#{version}/data/bsimm/team-A/score"
+  it '/data/bsimm/team-A/radar'   , -> make_Request_And_Save "#{version}/data/bsimm/team-A/radar"
   it '/team/bsimm/new'            , -> make_Request_And_Save "#{version}/team/bsimm/new"
   it '/data/bsimm/radar/fields'   , -> make_Request_And_Save "#{version}/data/bsimm/radar/fields"
-
-  it '/project/scores/bsimm'      , ()->
-    @.timeout 5000                                          # RISK-x todo: there is an scalabiltiy issue with this method/calculation (where there are lots of teams)
-    make_Request_And_Save "#{version}/project/scores/bsimm"
+  it '/team/bsimm/get/team-A'     , -> make_Request_And_Save "#{version}/team/bsimm/get/team-A"
+  it '/project/schema/bsimm'      , -> make_Request_And_Save "#{version}/project/schema/bsimm"
+  it '/project/scores/bsimm'      , -> make_Request_And_Save "#{version}/project/scores/bsimm"
 
   #samm
   it '/project/schema/samm'    , -> make_Request_And_Save "#{version}/project/schema/samm"

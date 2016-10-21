@@ -103,3 +103,4 @@ describe '_regression | A1 - Injection', ->
       file_Path.file_Contents().assert_Is_Not new_File_Contents             # confirm data was NOT changed
                                .assert_Is     original_File_Contents
       file_Path.assert_File_Deleted()
+      @.data_Project.clear_Caches()

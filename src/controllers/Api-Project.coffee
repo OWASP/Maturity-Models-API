@@ -14,7 +14,7 @@ class Api_Project extends Api_Base
 
   get: (req,res)=>
     project = req.params?.project
-    res.json @.data_Project.project_Files(project).file_Names_Without_Extension()
+    res.json @.data_Project.project_Files(project)._keys()
 
   list: (req,res)=>
     res.json @.data_Project.ids()

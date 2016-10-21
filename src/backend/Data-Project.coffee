@@ -13,12 +13,12 @@ class Data_Project
 
   project_Files: (id)=>
     return cache_project_Files[id] if cache_project_Files[id]  # return cached version if exists
-    result = []
+    result = {}
     project = @.projects()[id]                                 # get list of projects
     if project                                                 # if project object exist
       for file in project.path_Teams.files_Recursive()         # find all files recursively (so that folders can be used to organise files)
         if file.file_Extension() in ['.json', '.coffee']       # only support .json and .coffee files
-          result.push file
+          result[file.file_Name_Without_Extension()] = file
     return (cache_project_Files[id] = result)                  # cache results in cache_project_Files
 
   project_Schema: (id)=>

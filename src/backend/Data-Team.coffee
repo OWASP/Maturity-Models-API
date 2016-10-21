@@ -1,7 +1,5 @@
 Data_Project = require './Data-Project'
 
-cache_team_Path = {}
-
 class Data_Team
   constructor: ()->
     @.data_Project    = new Data_Project();
@@ -15,25 +13,24 @@ class Data_Team
         return true
     return false
 
-  teams_Names: (project)=>
-    (file.file_Name_Without_Extension() for file in @.teams_Paths(project))
-
-  # Issue: DoS on Data-Project technique to map projects and project's teams #108
-  teams_Paths: (project)=>
+  teams: (project)=>
     @.data_Project.project_Files(project)
 
+  teams_Names: (project)=>
+    @.teams(project)._keys()
+
+  teams_Paths: (project)=>
+    @.teams(project).values()
+
   team_Path: (project, team)=>
-    key = "#{project}-team"
-    return cache_team_Path[key] if cache_team_Path[key]
     if project and team
-      for file in @.teams_Paths(project)                   # this can be optimized with a cache
-        if file.file_Name_Without_Extension() is team
-          return (cache_team_Path[key] = file)
+      team_Paths = @.teams(project)
+      if team_Paths[team]
+        return team_Paths[team]
     return null
 
   get_Team_Data: (project, team) ->
     file = @.team_Path project, team
-
     if file and file.file_Exists()
       switch file.file_Extension()
         when '.json'

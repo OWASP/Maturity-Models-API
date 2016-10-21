@@ -14,9 +14,9 @@ describe 'backend | Data-Project', ->
                  .assert_Folder_Exists()
 
   it 'project_Files', ->
-    using data_Project, ->      
-      @.project_Files(project).file_Names().assert_Contains [ 'save-test.json','team-A.json',
-                                                              'team-B.json', 'team-C.json', 'team-random.coffee' ]
+    using data_Project, ->
+      @.project_Files(project)._keys().assert_Contains [ 'save-test','team-A',
+                                                         'team-B', 'team-C', 'team-random' ]
       @.project_Files('aa').assert_Is []
       
   it 'project_Schema', ->

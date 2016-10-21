@@ -36,7 +36,7 @@ class Data_Stats
 
   teams_Scores: (project)=>
     all_Scores = {}
-    for team in @.data_Team.teams_Names project
+    for team in @.data_Team.teams_Names(project)
       all_Scores[team] = @.team_Score project, team
     all_Scores
 

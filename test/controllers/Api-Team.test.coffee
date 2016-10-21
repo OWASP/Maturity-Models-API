@@ -92,6 +92,7 @@ describe 'controllers | Api-Team', ->
       send: (data)->
         data.assert_Size_Is_Bigger_Than 3
         data.assert_Contains [ 'team-A', 'team-B' ]
+        data.duplicates().assert_Is []
 
 
     using api_Team, ->
