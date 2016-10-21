@@ -16,19 +16,19 @@ describe 'backend | Data-Stats', ->
       @.constructor.name.assert_Is 'Data_Stats'
       @.data_Team   .constructor.name.assert_Is 'Data_Team'
       @.data_Project.constructor.name.assert_Is 'Data_Project'
-      
+
   it 'team_Score', ->
     using data_Stats, ->
       using @.team_Score(project, team),->
         @.assert_Is  { 'level_1':
-                          value     : 18.4,
-                          percentage: '48%',
-                          activities: 38
-                        'level_2':
-                          value     : 14.4
-                          percentage: '35%'
-                          activities: 41
-                        'level_3':
+                          value     : 19.4
+                          percentage: '50%'
+                          activities: 39
+                       'level_2':
+                          value     : 13.4
+                          percentage: '34%'
+                          activities: 40
+                       'level_3':
                           value     : 4.8
                           percentage: '15%'
                           activities: 33 }
@@ -37,8 +37,25 @@ describe 'backend | Data-Stats', ->
     using data_Stats, ->
       using @.team_Score(),->
         @.assert_Is {} 
-  
+
   it 'teams_Scores', ->
+    @.timeout 4000
     using data_Stats, ->
       using @.teams_Scores(project),->
-        @[team].level_1.value.assert_Is_Bigger_Than 17.2
+        @[team].level_1.value.assert_Is 19.4
+
+
+  # happens when number of teams is 150+
+#  it 'Issue x - performance issue with @.teams_Scores', ->
+#    @.timeout 4000
+#
+#    using data_Stats, ->
+#      teams =  @.data_Team.teams_Names(project)
+#      #teams.size().assert_Is_Bigger_Than 150
+#      start =  Date.now()
+#      using @.teams_Scores(project),->
+#        console.log "final:  > " +  (Date.now() - start)
+#        #(Date.now() - start).assert_Is_Bigger_Than 400  # this shouldn't be so high
+#        #(Date.now() - start).assert_Is_Bigger_Than 3000  # this shouldn't be so high
+#
+#        #@[team].level_1.value.assert_Is_19.4

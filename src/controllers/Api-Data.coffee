@@ -32,11 +32,7 @@ class Api_Data extends Api_Base
     team    = req.params?.team
 
     if project and team
-      team_Data  = @.data_Team.get_Team_Data project, team
-      radar_Data  = @.data_Radar.get_Radar_Data team_Data
-
-      #radar_Data = @.data_Radar.get_Radar_Data file_Data
-      #radar_Data  = @.data_Radar.get_Team_Data project, team
+      radar_Data  = @.data_Radar.get_Radar_Data project, team
       res.json radar_Data
 
 

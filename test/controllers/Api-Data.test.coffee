@@ -5,7 +5,7 @@ describe 'controllers | Api-Data', ->
   project  = null
   team     = null
 
-  beforeEach ->    
+  beforeEach ->
     using new Api_Data(), ->
       api_Data = @
       project  = 'bsimm'
@@ -23,7 +23,7 @@ describe 'controllers | Api-Data', ->
     using api_Data, ->
       @.routes_Added.size().assert_Is 4
 
-  it 'projects_Scores', ->    
+  it 'projects_Scores', ->     
     req = 
       params:
         project: project
@@ -40,7 +40,7 @@ describe 'controllers | Api-Data', ->
         project: project
     res =
       json: (data)->
-        data.axes.first().assert_Is  { axis: 'Strategy & Metrics', xOffset: 1, value: 0 },
+        data.axes.first().assert_Is  { axis: 'Strategy & Metrics', key: 'SM', xOffset: 1, value: 0 },
 
     using api_Data, ->
       @.radar_Fields(req,res)
