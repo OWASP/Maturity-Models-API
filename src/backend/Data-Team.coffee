@@ -8,7 +8,9 @@ class Data_Team
   delete_Team: (project, team)->
     team_Path = @.team_Path project, team  
     if team_Path
-      return team_Path.file_Delete()
+      if team_Path.file_Delete()
+        @.data_Project.clear_Caches()                        # so that deleted file is not shown anymore
+        return true
     return false
 
   teams_Names: (project)=>
@@ -19,7 +21,7 @@ class Data_Team
     @.data_Project.project_Files(project)
 
   team_Path: (project, team)=>
-    if team
+    if project and team
       for file in @.teams_Paths(project)                   # this can be optimized with a cache
         if file.file_Name_Without_Extension() is team
           return file          
@@ -27,12 +29,14 @@ class Data_Team
 
   get_Team_Data: (project, team) ->
     file = @.team_Path project, team
+
     if file and file.file_Exists()
       switch file.file_Extension()
         when '.json'
           return file.load_Json()
         when '.coffee'                                # Issue 69 - Support for coffee file to create dynamic data set's allow RCE
-          try                    
+          try
+            require('coffee-script/register');        # ensure that coffee-script parsing is registered
             data_Or_Function = require(file)
             if data_Or_Function instanceof Function   # check if what was received from the coffee script is an object or an function
               return data_Or_Function()
@@ -51,7 +55,8 @@ class Data_Team
       target_File   = "#{target_Folder}/#{team_Name}.json"
       default_Data  = {}
       default_Data.save_Json target_File
-      if target_File.file_Exists()        
+      if target_File.file_Exists()
+        @.data_Project.clear_Caches()                        # so that new file is picked up
         return team_Name
       
     return null

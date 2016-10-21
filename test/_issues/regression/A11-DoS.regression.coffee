@@ -48,6 +48,8 @@ describe '_issues | regression | A11 - DoS', ->
 
   # https://github.com/DinisCruz/BSIMM-Graphs/issues/72
   # this issue is now even less problematic (after recent refactorings)
+  # update (Oct 2016) after fix to "Performance issue on multiple Data_Project methods" #167
+  #    this is even faster
   it 'Issue 72 - Project list gets data from File System and could cause DoS', ()->
     using new Data_Project(), ->
       start = Date.now();
@@ -56,12 +58,13 @@ describe '_issues | regression | A11 - DoS', ->
         next()
 
       #items = [0..0     ]  # 1    takes 0ms    (before it was 15ms   )
-      items = [0..10   ]    # 10   takes 20ms    (before it was 50ms   )
-      #items = [0..100  ]   # 100  takes 70ms   (before it was 250ms  )
-      #items = [0..1000 ]   # 1000 takes 320ms  (before it was 2250ms )
-      #items = [0..5000 ]   # 5000 takes 1698ms (before it was 12000ms)
+      items = [0..10   ]    # 10   takes 0ms    before #167 it was  20ms    (before it was 50ms   )
+      items = [0..100  ]    # 100  takes 1ms    before #167 it was 70ms   (before it was 250ms  )
+      items = [0..1000 ]    # 1000 takes 3ms    before #167 it was 320ms  (before it was 2250ms )
+      #items = [0..5000 ]   # 5000 takes 15ms   before #167 it was 1698ms (before it was 12000ms)
       async.each items, test_List, ->
         duration = Date.now() - start
-        duration.assert_In_Between(1,100)        # in travis we had execution times of less than 25ms
+        console.log duration
+        duration.assert_Smaller_Than 10        # in travis we had execution times of less than 25ms
 
 

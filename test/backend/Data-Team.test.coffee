@@ -9,6 +9,7 @@ describe 'backend | Data-Team', ->
     project   = 'bsimm'
     team      = 'team-A'
     data_Team = new Data_Team()
+    data_Team.data_Project.clear_Caches()
 
   it 'constructor',->
     using data_Team, ->
@@ -60,14 +61,16 @@ describe 'backend | Data-Team', ->
   it 'get_Team_Data (coffee)',()->
     using data_Team, ->
       team = 'team-random'
-      @.get_Team_Data project, team
-          .metadata.team.assert_Is 'Team Random'
+      @.get_Team_Data(project, team)
+          .metadata
+          .team.assert_Is 'Team Random'
 
   it 'get_Team_Data (bad coffee file)',()->    
     using data_Team, ->
       teams_Path  =  @.data_Project.project_Path_Teams project
       test_Coffee = (team_Name, team_Code, expected_Result)=>
         teams_Path.path_Combine(team_Name + '.coffee').file_Create team_Code
+        @.data_Project.clear_Caches()
         if expected_Result
           @.get_Team_Data(project, team_Name).assert_Is expected_Result
         else

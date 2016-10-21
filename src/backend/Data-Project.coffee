@@ -1,20 +1,25 @@
-cache_Projects = null
-cache_project_Files = null
+cache_Projects      = null
+cache_project_Files = {}
+
 class Data_Project
   constructor: ()->
     @.data_Path       = __dirname.path_Combine('../../../../data')
     @.config_File     = "maturity-model.json"
     @.schema_File     = "schema.json"
 
+  clear_Caches: ()->
+    cache_Projects      = null
+    cache_project_Files = {}
+
   project_Files: (id)=>
-    return cache_project_Files if cache_project_Files         # return cached version if exists
+    return cache_project_Files[id] if cache_project_Files[id]  # return cached version if exists
     result = []
-    project = @.projects()[id]                               # get list of projects
-    if project                                               # if project object exist
-      for file in project.path_Teams.files_Recursive()       # find all files recursively (so that folders can be used to organise files)
-        if file.file_Extension() in ['.json', '.coffee']     # only support .json and .coffee files
+    project = @.projects()[id]                                 # get list of projects
+    if project                                                 # if project object exist
+      for file in project.path_Teams.files_Recursive()         # find all files recursively (so that folders can be used to organise files)
+        if file.file_Extension() in ['.json', '.coffee']       # only support .json and .coffee files
           result.push file
-    return (cache_project_Files = result)                    # cache results in cache_project_Files
+    return (cache_project_Files[id] = result)                  # cache results in cache_project_Files
 
   project_Schema: (id)=>
     return using (@.projects()[id]),->
