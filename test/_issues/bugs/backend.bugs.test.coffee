@@ -1,5 +1,6 @@
-Data_Radar = require '../../../src/backend/Data-Radar'
-Data_Team  = require '../../../src/backend/Data-Team'
+Data_Radar   = require '../../../src/backend/Data-Radar'
+Data_Team    = require '../../../src/backend/Data-Team'
+Data_Project = require '../../../src/backend/Data-Project'
 
 describe 'bugs | backend | Data-Project', ->
 
@@ -19,6 +20,7 @@ describe 'bugs | backend | Data-Project', ->
 
   # the bug is happening in the map_Data function
 
+  
   it 'Fix Radar bug in OwaspSAMM graph - #164 (map_Data method)  ', ->
     keys_BSIMM = [ 'SM', 'CP', 'T' , 'AM', 'SFD', 'SR', 'AA', 'CR', 'ST', 'PT', 'SE', 'CMVM' ]
     keys_SAMM  = [ 'SM', 'PC', 'EG', 'TA', 'SR' , 'SA', 'DR', 'IR', 'ST', 'IM', 'EH', 'OE'   ]
@@ -34,4 +36,22 @@ describe 'bugs | backend | Data-Project', ->
 
 
     mapping_BSIMM._keys().assert_Is keys_BSIMM          # ok
-    mapping_SAMM ._keys().assert_Is keys_SAMM          # wrong
+    mapping_SAMM ._keys().assert_Is keys_SAMM           # ok
+
+
+  require 'fluentnode'
+
+  it.only 'Performance issue on multiple Data_Project methods #167', ->
+    start = Date.now()
+
+    using new Data_Project(), ->
+      @.projects()._keys().size().assert_Is 2                          # there are 2 projects
+      (Date.now() - start).assert_Smaller_Than 5                       # @.projects() is sub 5 ms
+
+      for i in [1..400]                                                # call @.project_Files 400 times (this used to be a problem with 10x )
+        @.project_Files('bsimm').size().assert_Is_Bigger_Than 50       # there are about 315 projects in the current wallaby folder environment
+      (Date.now() - start).assert_Smaller_Than 50                      # 10x @.project_Files() takes more than 250ms
+                                                                       #   this becomes a problem for actions like
+                                                                       #   calculate scores which will call @.project_Files
+                                                                       #   once per project (i.e. 150+ times)
+
