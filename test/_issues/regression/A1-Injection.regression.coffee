@@ -82,7 +82,6 @@ describe '_regression | A1 - Injection', ->
       create_File '.css'
       create_File '...'
 
-  #require('coffee-script/register');          # in case wallably has not registered it
   it 'Issue 24 - Data_Files.set_File_Data - allows editing of coffee-script files (RCE)', ->
     using new Data_Team(), ->
       original_File_Contents = 'module.exports = ()-> user: 42'
@@ -94,6 +93,7 @@ describe '_regression | A1 - Injection', ->
       file_Path              = target_Folder.path_Combine file_Name + '.coffee'
 
       original_File_Contents.save_As file_Path
+      @.data_Project.clear_Caches()
 
       @.get_Team_Data(project, file_Name).user.assert_Is 42                 # confirm original data
 

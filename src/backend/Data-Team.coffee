@@ -1,5 +1,7 @@
 Data_Project = require './Data-Project'
 
+cache_team_Path = {}
+
 class Data_Team
   constructor: ()->
     @.data_Project    = new Data_Project();
@@ -21,10 +23,12 @@ class Data_Team
     @.data_Project.project_Files(project)
 
   team_Path: (project, team)=>
+    key = "#{project}-team"
+    return cache_team_Path[key] if cache_team_Path[key]
     if project and team
       for file in @.teams_Paths(project)                   # this can be optimized with a cache
         if file.file_Name_Without_Extension() is team
-          return file          
+          return (cache_team_Path[key] = file)
     return null
 
   get_Team_Data: (project, team) ->

@@ -112,7 +112,7 @@ describe 'controllers | Api-Team', ->
     changed_Data = { other  : 'data' }
 
     file_Path.file_Write initial_Data.json_Str()
-
+    api_Team.data_Team.data_Project.clear_Caches()
     req =
       params:
         project: project
