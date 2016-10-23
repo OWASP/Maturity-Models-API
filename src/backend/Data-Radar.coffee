@@ -67,19 +67,5 @@ class Data_Radar
     for field in radar_Fields.axes
       result[field.key] = calculate field.key + "."
     return result
-#      SM  : calculate 'SM.'   # Governance
-#      CMVM: calculate 'CMVM.' # Deployment
-#      SE  : calculate 'SE.'   # Deployment
-#      PT  : calculate 'PT.'   # Deployment
-#      ST  : calculate 'ST.'   # SSDL
-#      CR  : calculate 'CR.'   # SSDL
-#      AA  : calculate 'AA.'   # SSDL
-#      SR  : calculate 'SR.'   # Intelligence
-#      SFD : calculate 'SFD.'  # Intelligence
-#      AM  : calculate 'AM.'   # Intelligence
-#      T   : calculate 'T.'    # Governance
-#      CP  : calculate 'CP.'   # Governance
-
-    return data
 
 module.exports = Data_Radar
