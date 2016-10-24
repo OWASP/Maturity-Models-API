@@ -19,24 +19,11 @@ class Data_Radar
 
     result = axes : []
     schema = @.data_Project.project_Schema project
+    offsets = [35, 10, 0, 13, 15, 15, -20, -20, 0, -5, -15 ,20]
     for name, practice of schema.practices
-      result.axes.push { axis: name , key: practice.key, xOffset: 1, value: 0 }
-
+      result.axes.push { axis: practice.key, key: practice.key, name: name, xOffset: offsets.pop(), value: 0 }
     return result
-#    axes: [
-#      { axis: "Strategy & Metrics"        , xOffset: 1    , value: 0},
-#      { axis: "Conf & Vuln Management"    , xOffset: -110 , value: 0},
-#      { axis: "Software Environment"      , xOffset: -30  , value: 0},
-#      { axis: "Penetration Testing"       , xOffset: 1    , value: 0},
-#      { axis: "Security Testing"          , xOffset: -25  , value: 0},
-#      { axis: "Code Review"               , xOffset: -60  , value: 0},
-#      { axis: "Architecture Analysis"     , xOffset: 1    , value: 0},
-#      { axis: "Standards & Requirements"  , xOffset: 100  , value: 0},
-#      { axis: "Security Features & Design", xOffset: 30   , value: 0},
-#      { axis: "Attack Models"             , xOffset: 1    , value: 0},
-#      { axis: "Training"                  , xOffset: 30   , value: 0},
-#      { axis: "Compliance and Policy"     , xOffset: 100  , value: 0},
-#    ]
+
 
   get_Radar_Data: (project, team)=>
     team_Data    = @.data_Team.get_Team_Data project, team
