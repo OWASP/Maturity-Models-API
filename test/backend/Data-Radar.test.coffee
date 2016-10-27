@@ -33,7 +33,7 @@ describe 'backend | Data-Project', ->
     using data_Radar, ->
       using @.get_Radar_Fields(project), ->
         @.axes.assert_Size_Is 12
-        @.axes.first().assert_Is { axis: "Strategy & Metrics" , key: 'SM', xOffset: 1, value: 0},
+        @.axes.first().assert_Is { axis: 'SM', name: "Strategy & Metrics" , key: 'SM', xOffset: 20, value: 0},
 
 
   it 'get_Radar_Data', ->

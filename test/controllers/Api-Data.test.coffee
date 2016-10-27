@@ -42,7 +42,7 @@ describe 'controllers | Api-Data', ->
         project: project
     res =
       json: (data)->
-        data.axes.first().assert_Is  { axis: 'Strategy & Metrics', key: 'SM', xOffset: 1, value: 0 },
+        data.axes.first().assert_Is  { axis: 'SM', name: 'Strategy & Metrics', key: 'SM', xOffset: 20, value: 0 },
 
     using api_Data, ->
       @.radar_Fields(req,res)
