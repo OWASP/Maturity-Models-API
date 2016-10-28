@@ -74,6 +74,8 @@ class Server
     @.logs_Morgan = morgan 'combined', { stream: @.logs_Stream }
     @.app.use @.logs_Morgan
 
+    @.api_Logs.add_Loggly_Support (@.app)
+
 
   start_Server: =>
     @.server = @.app.listen @.port
