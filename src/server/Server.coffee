@@ -8,6 +8,7 @@ bodyParser        = require('body-parser');
 d3                = require 'd3'
 morgan            = require 'morgan'
 Routes            = require './Routes'
+Loggly            = require './Loggly'
 Redirects         = require './Redirects'
 Api_Logs          = require '../controllers/Api-Logs'              # todo: move to a log service
 
@@ -74,7 +75,7 @@ class Server
     @.logs_Morgan = morgan 'combined', { stream: @.logs_Stream }
     @.app.use @.logs_Morgan
 
-    @.api_Logs.add_Loggly_Support (@.app)
+    @.loggly = new Loggly().setup(@.app)
 
 
   start_Server: =>
