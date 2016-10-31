@@ -9,11 +9,12 @@ class Api_Team extends Api_Base
     super()
 
   add_Routes: ()=>
-    @.add_Route 'get' , '/team/:project/list'         , @.list
-    @.add_Route 'get' , '/team/:project/delete/:team' , @.delete
-    @.add_Route 'get' , '/team/:project/get/:team'    , @.get
-    @.add_Route 'get' , '/team/:project/new'          , @.new
-    @.add_Route 'post', '/team/:project/save/:team'   , @.save
+    @.add_Route 'get' , '/team/:project/list'               , @.list
+    @.add_Route 'get' , '/team/:project/delete/:team'       , @.delete
+    @.add_Route 'get' , '/team/:project/get/:team'          , @.get
+    @.add_Route 'get' , '/team/:project/new'                , @.new
+    @.add_Route 'get' , '/team/:project/rename/:team/:name' , @.rename
+    @.add_Route 'post', '/team/:project/save/:team'         , @.save
     @
 
   delete: (req, res)=>
@@ -50,6 +51,12 @@ class Api_Team extends Api_Base
   list: (req, res)=>
     project = req.params?.project
     res.send @.data_Team.teams_Names(project)
+
+  rename: (req,res)=>
+    project = req.params?.project
+    team    = req.params?.team
+    name    = req.params?.name
+    res.send @.data_Team.rename_Team project, team, name
 
   save: (req, res)=>
     project  = req.params?.project

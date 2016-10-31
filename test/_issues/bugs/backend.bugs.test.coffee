@@ -54,7 +54,7 @@ describe 'bugs | backend | Data-Project', ->
 
       for i in [1..400]                                                   # call @.project_Files 400 times (this used to be a problem with 10x )
         @.project_Files('bsimm')['team-A'].assert_File_Exists()           # there are about 315 projects in the current wallaby folder environment
-      (Date.now() - start).assert_Smaller_Than 150                        # 10x @.project_Files() takes more than 250ms
+      (Date.now() - start).assert_Smaller_Than 250                        # 10x @.project_Files() takes more than 250ms
                                                                           #   this becomes a problem for actions like
                                                                           #   calculate scores which will call @.project_Files
                                                                           #   once per project (i.e. 150+ times)

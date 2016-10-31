@@ -18,7 +18,7 @@ describe 'controllers | Api-Team', ->
   it 'add_Routes', ->
     using api_Team, ->
       @.add_Routes()
-      @.router.stack.assert_Size_Is 5
+      @.router.stack.assert_Size_Is 6
 
   it 'delete', ->
     using api_Team, ->
@@ -98,6 +98,20 @@ describe 'controllers | Api-Team', ->
     using api_Team, ->
       @.data_Team.data_Project.data_Path.assert_Folder_Exists()
       @.list(req,res)
+
+  it 'rename', ->
+    req =
+      params:
+        project: project
+        team   : 'aaa',
+        name   : 'bbb'
+
+    res =
+      send: (data)->
+        data.assert_Is_False()
+
+    using api_Team, ->
+      @.rename req, res
 
   it 'save', ->
     data_Path = api_Team.data_Team.data_Project

@@ -90,6 +90,27 @@ describe 'backend | Data-Team', ->
       new_File_Id.assert_Contains @.new_Team_Prefix
       new_File_Path = @.team_Path project, new_File_Id
       new_File_Path.assert_File_Exists()
+      @.delete_Team(project, new_File_Id).assert_Is_True()
+      new_File_Path.assert_File_Not_Exists()
+
+  it 'rename_Team', ->
+    using data_Team, ->
+      team_Name = @.new_Team project
+      new_Name  = 'new_name_'.add_5_Random_Letters()
+      @.team_Path(project, team_Name).assert_Contains team_Name
+      @.rename_Team project, team_Name, new_Name
+      @.delete_Team(project, team_Name).assert_Is_False()
+      @.delete_Team(project, new_Name ).assert_Is_True()
+
+  it 'rename_Team (with bad data)', ->
+    using data_Team, ->
+      @.rename_Team(                           ).assert_Is_False()
+      @.rename_Team(project                    ).assert_Is_False()
+      @.rename_Team('aaaa'                     ).assert_Is_False()
+      @.rename_Team(project, 'aabbcc'          ).assert_Is_False()
+      @.rename_Team(project, 'aabbcc', 'cccc'  ).assert_Is_False()
+      @.rename_Team(project, 'team-A', 'team-A').assert_Is_False()
+
 
   it 'set_Team_Data_Json', ->    
     target_File = 'team-C'

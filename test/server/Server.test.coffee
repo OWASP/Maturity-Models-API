@@ -103,6 +103,7 @@ describe 'server | Server', ->
                           "#{version}/team/:project/get/:team"
                           "#{version}/team/:project/new"
                           "#{version}/team/:project/save/:team"
+                          "#{version}/team/:project/rename/:team/:name"
                           "#{version}/project/list"
                           "#{version}/project/get/:project"
                           "#{version}/project/schema/:project"
