@@ -25,7 +25,7 @@ class Loggly
     @.app = app
     if @.token()
       require('winston-loggly-bulk');
-      console.log 'Adding loggly support'
+      console.log "Adding loggly support using token: #{@.token()}"
 
 
       logger_Options = transports: [ new winston.transports.Loggly(@.options())]
