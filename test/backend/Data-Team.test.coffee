@@ -47,17 +47,17 @@ describe 'backend | Data-Team', ->
       @.check_Metadata_Field('project_name', {}).assert_Is {}
 
       @.data_Project.project_Schema = ()-> return metadata: {}                                            # check when project_Schema returns an empty object
-      @.check_Metadata_Field('project_name', {}).assert_Is metadata: {}
+      @.check_Metadata_Field('project_name', {}).assert_Is activities: {}, metadata: {}
 
       @.data_Project.project_Schema = ()-> return metadata: []
-      @.check_Metadata_Field('project_name', {}).assert_Is metadata: {}                                   # check when project_Schema returns an empty array
+      @.check_Metadata_Field('project_name', {}).assert_Is activities: {}, metadata: {}                   # check when project_Schema returns an empty array
 
 
       @.data_Project.project_Schema = ()-> return metadata: [ 'aaa']                                      # check when project_Schema returns an value
-      @.check_Metadata_Field('project_name', {}).assert_Is metadata: {aaa: ''}
+      @.check_Metadata_Field('project_name', {}).assert_Is activities: {}, metadata: {aaa: ''}
 
       @.data_Project.project_Schema = ()-> return metadata: [ 'aaa', bbb:'xxx']                           # check when project_Schema returns an value and an object
-      @.check_Metadata_Field('project_name', {}).assert_Is metadata: { aaa: '', '[object Object]': ''}    # this is ok(ish) for now
+      @.check_Metadata_Field('project_name', {}).assert_Is activities: {}, metadata: { aaa: '', '[object Object]': ''}    # this is ok(ish) for now
 
       @.data_Project.project_Schema = saved_Method
 
@@ -65,7 +65,7 @@ describe 'backend | Data-Team', ->
     using data_Team, ->
       temp_Team = @.new_Team( project           ).assert_Size_Is(10).str()
       team_Path = @.team_Path(project, temp_Team).assert_File_Exists()
-      @.get_Team_Data(        project, temp_Team).assert_Is {}
+      @.get_Team_Data(        project, temp_Team).assert_Is_Object()
       @.delete_Team(          project, temp_Team).assert_Is_True()
 
       team_Path.assert_File_Not_Exists()
@@ -100,8 +100,9 @@ describe 'backend | Data-Team', ->
 
   it 'get_Team_Data', ()->    
     using data_Team, ->      
-      @.get_Team_Data project, team
-          .metadata.team.assert_Is 'Team A'
+      data = @.get_Team_Data project, team
+      data.metadata.team.assert_Is 'Team A'
+      data.metadata._keys().assert_Is [ 'team','security-champion', 'source-code-repo','issue-tracking', 'wiki', 'ci-server', 'created-by' ]
 
   it 'new_Team', ->    
     using data_Team, ->

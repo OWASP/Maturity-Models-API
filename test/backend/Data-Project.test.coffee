@@ -17,7 +17,7 @@ describe 'backend | Data-Project', ->
   it 'project_Files', ->
     using data_Project, ->
       @.project_Files(project)._keys().assert_Contains [ 'save-test','team-A',
-                                                         'team-B', 'team-C', 'team-random' ]
+                                                         'team-B', 'team-C']
       @.project_Files('aa').assert_Is []
       
   it 'project_Schema', ->

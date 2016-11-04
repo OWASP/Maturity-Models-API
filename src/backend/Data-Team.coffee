@@ -6,14 +6,16 @@ class Data_Team
     @.new_Team_Prefix = 'team-'
 
 
-  check_Metadata_Field: (project, team_Data)=>                  # this function will ensure that the team_Data object contains all schema.metadata fields
+  check_Metadata_Field: (project, team_Data)=>                    # this function will ensure that the team_Data object contains all schema.metadata fields
     if project and team_Data
       schema = @.data_Project.project_Schema project              # get schema for project
       if schema?.metadata                                         # if we got a valid metadata value
-        team_Data.metadata = team_Data?.metadata || {}            # ensure team_Data.metadata exists
+        team_Data.metadata   = team_Data?.metadata   || {}        # ensure team_Data.metadata exists
+        team_Data.activities = team_Data?.activities || {}        # ensure team_Data.activites exists
         for field in schema?.metadata                             # for each field
           if not team_Data.metadata[field]                        # if it doesn't exist in team_Data.metadata
             team_Data.metadata[field] = ''                        # create that field set it to ''
+
     team_Data
 
 
@@ -46,8 +48,7 @@ class Data_Team
     if file and file.file_Exists()
       switch file.file_Extension()
         when '.json'
-          data = file.load_Json()
-          return data
+          return @.check_Metadata_Field project, file.load_Json()
     return null
 
   new_Team: (project, name, contents)->
