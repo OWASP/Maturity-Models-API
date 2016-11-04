@@ -50,9 +50,15 @@ describe 'backend | Data-Project', ->
       data = @.map_Data radar_Fields, team_Data
       data.assert_Is expected_Mapping
 
-  it 'should return empty axes array when no data is provided', ->
+  it 'get_Radar_Data should return empty axes array when no data is provided', ->
     using new Data_Radar(), ->
       using @.get_Radar_Data(null), ->
         @.assert_Is axes: {}
-#        for axe in @.axes
-#          axe.value.assert_Is 0.1
+
+  it 'map_Data should use 0.1 as default value', ->
+    using data_Radar, ->
+      radar_Fields = @.get_Radar_Fields project
+      data         = @.map_Data radar_Fields, { axes: {} }
+      data.values().unique().assert_Is [ 0.1 ]
+
+

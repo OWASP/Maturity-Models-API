@@ -46,7 +46,7 @@ class Data_Radar
           result.maybe_Count++
       score = ((result.yes_Count * @.score_Yes) + (result.maybe_Count * @.score_Maybe)) / result.count
       if score
-        return (score * @.score_Max).to_Decimal()                                     # use to_Decimal, due to JS Decimal addition bug
+        return (score * @.score_Max).to_Decimal()                                   # use to_Decimal, due to JS Decimal addition bug
       return 0.1
 
 

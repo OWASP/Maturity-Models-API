@@ -39,9 +39,11 @@ describe '_ui_data | create api , create angular service' ,->
   it '/data/bsimm/level-3/radar'  , -> make_Request_And_Save "#{version}/data/bsimm/level-3/radar"
   it '/data/bsimm/team-A/score'   , -> make_Request_And_Save "#{version}/data/bsimm/team-A/score"
   it '/data/bsimm/team-A/radar'   , -> make_Request_And_Save "#{version}/data/bsimm/team-A/radar"
-  it '/team/bsimm/new'            , -> make_Request_And_Save "#{version}/team/bsimm/new"
   it '/data/bsimm/radar/fields'   , -> make_Request_And_Save "#{version}/data/bsimm/radar/fields"
+  it '/team/bsimm/new'            , -> make_Request_And_Save "#{version}/team/bsimm/new"
   it '/team/bsimm/get/team-A'     , -> make_Request_And_Save "#{version}/team/bsimm/get/team-A"
+
+  it '/project/get/bsimm'         , -> make_Request_And_Save "#{version}/project/get/bsimm"
   it '/project/schema/bsimm'      , -> make_Request_And_Save "#{version}/project/schema/bsimm"
   it '/project/scores/bsimm'      , -> make_Request_And_Save "#{version}/project/scores/bsimm"
 
