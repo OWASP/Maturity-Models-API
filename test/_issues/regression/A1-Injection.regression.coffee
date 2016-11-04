@@ -81,26 +81,3 @@ describe '_regression | A1 - Injection', ->
       create_File '.html'
       create_File '.css'
       create_File '...'
-
-  it 'Issue 24 - Data_Files.set_File_Data - allows editing of coffee-script files (RCE)', ->
-    using new Data_Team(), ->
-      original_File_Contents = 'module.exports = ()-> user: 42'
-      new_File_Contents      = 'module.exports = ()-> 40+2'
-      project                = 'bsimm'
-      file_Name              = 'test-coffee-data'
-      target_Folder          = @.team_Path(project, 'team-A').parent_Folder()
-
-      file_Path              = target_Folder.path_Combine file_Name + '.coffee'
-
-      original_File_Contents.save_As file_Path
-      @.data_Project.clear_Caches()
-
-      @.get_Team_Data(project, file_Name).user.assert_Is 42                 # confirm original data
-
-      result = @.set_Team_Data_Json project, file_Name, new_File_Contents   # try to make change
-      assert_Is_Null result                                                 # confirm save fail
-
-      file_Path.file_Contents().assert_Is_Not new_File_Contents             # confirm data was NOT changed
-                               .assert_Is     original_File_Contents
-      file_Path.assert_File_Deleted()
-      @.data_Project.clear_Caches()

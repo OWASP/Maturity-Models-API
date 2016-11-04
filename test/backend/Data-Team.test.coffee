@@ -16,6 +16,51 @@ describe 'backend | Data-Team', ->
       @.constructor.name.assert_Is 'Data_Team'
       @.new_Team_Prefix .assert_Is 'team-' 
 
+
+  it 'check_Metadata_Field', ->
+    using data_Team, ->
+      expected_Metadata_Fields =  [ 'abc' ,
+                                    'team', 'security-champion', 'source-code-repo',
+                                    'issue-tracking', 'wiki','ci-server','created-by'     ]
+
+      team_Data = @.get_Team_Data project, team                     # get team data
+      original_Metadata   = team_Data.metadata.json_Str()           # store copy of metadata (as a serialised JSON)
+      team_Data.metadata  = 'abc' : '123'                           # modify metadata
+
+      @.check_Metadata_Field project, team_Data                     # should add missing metadata fields
+      team_Data.metadata._keys().assert_Is expected_Metadata_Fields # confirm expected fields
+      team_Data = @.get_Team_Data project, team
+      team_Data.metadata.json_Str().assert_Is original_Metadata     # confirm original file was not modified
+
+  it 'check_Metadata_Field (error handling)', ->
+    using data_Team, ->
+      assert_Is_Null @.check_Metadata_Field null   , null
+      assert_Is_Null @.check_Metadata_Field 'bismm', null
+      @.check_Metadata_Field(null, {}).assert_Is {}
+
+      saved_Method = @.data_Project.project_Schema
+
+      @.data_Project.project_Schema = (project)->                                                         # check when project_Schema returns null
+        project.assert_Is 'project_name'
+        return null
+      assert_Is_Undefined @.check_Metadata_Field 'project_name'
+      @.check_Metadata_Field('project_name', {}).assert_Is {}
+
+      @.data_Project.project_Schema = ()-> return metadata: {}                                            # check when project_Schema returns an empty object
+      @.check_Metadata_Field('project_name', {}).assert_Is metadata: {}
+
+      @.data_Project.project_Schema = ()-> return metadata: []
+      @.check_Metadata_Field('project_name', {}).assert_Is metadata: {}                                   # check when project_Schema returns an empty array
+
+
+      @.data_Project.project_Schema = ()-> return metadata: [ 'aaa']                                      # check when project_Schema returns an value
+      @.check_Metadata_Field('project_name', {}).assert_Is metadata: {aaa: ''}
+
+      @.data_Project.project_Schema = ()-> return metadata: [ 'aaa', bbb:'xxx']                           # check when project_Schema returns an value and an object
+      @.check_Metadata_Field('project_name', {}).assert_Is metadata: { aaa: '', '[object Object]': ''}    # this is ok(ish) for now
+
+      @.data_Project.project_Schema = saved_Method
+
   it 'delete_Team', ->
     using data_Team, ->
       temp_Team = @.new_Team( project           ).assert_Size_Is(10).str()
@@ -57,32 +102,6 @@ describe 'backend | Data-Team', ->
     using data_Team, ->      
       @.get_Team_Data project, team
           .metadata.team.assert_Is 'Team A'
-
-  it 'get_Team_Data (coffee)',()->
-    using data_Team, ->
-      team = 'team-random'
-      @.get_Team_Data(project, team)
-          .metadata
-          .team.assert_Is 'Team Random'
-
-  it 'get_Team_Data (bad coffee file)',()->    
-    using data_Team, ->
-      teams_Path  =  @.data_Project.project_Path_Teams project
-      test_Coffee = (team_Name, team_Code, expected_Result)=>
-        teams_Path.path_Combine(team_Name + '.coffee').file_Create team_Code
-        @.data_Project.clear_Caches()
-        if expected_Result
-          @.get_Team_Data(project, team_Name).assert_Is expected_Result
-        else
-          assert_Is_Null @.get_Team_Data(project, team_Name)
-        @.delete_Team(project, team_Name).assert_Is_True()
-        assert_Is_Null @.get_Team_Data(project, team_Name)
-
-      test_Coffee '_temp-team_1', 'module.exports = -> 40 +2', 42
-      test_Coffee '_temp-team_2', 'module.exports = -> 40 +3', 43
-      test_Coffee '_temp-team_3', 'module.exports = 40 +3'   , 43
-      test_Coffee '_temp-team_4', 'AAA.exports    = 40 +3'   , null
-
 
   it 'new_Team', ->    
     using data_Team, ->

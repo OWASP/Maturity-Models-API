@@ -5,6 +5,18 @@ class Data_Team
     @.data_Project    = new Data_Project();
     @.new_Team_Prefix = 'team-'
 
+
+  check_Metadata_Field: (project, team_Data)=>                  # this function will ensure that the team_Data object contains all schema.metadata fields
+    if project and team_Data
+      schema = @.data_Project.project_Schema project              # get schema for project
+      if schema?.metadata                                         # if we got a valid metadata value
+        team_Data.metadata = team_Data?.metadata || {}            # ensure team_Data.metadata exists
+        for field in schema?.metadata                             # for each field
+          if not team_Data.metadata[field]                        # if it doesn't exist in team_Data.metadata
+            team_Data.metadata[field] = ''                        # create that field set it to ''
+    team_Data
+
+
   delete_Team: (project, team)->
     team_Path = @.team_Path project, team  
     if team_Path
@@ -34,17 +46,8 @@ class Data_Team
     if file and file.file_Exists()
       switch file.file_Extension()
         when '.json'
-          return file.load_Json()
-        when '.coffee'                                # Issue 69 - Support for coffee file to create dynamic data set's allow RCE
-          try
-            require('coffee-script/register');        # ensure that coffee-script parsing is registered
-            data_Or_Function = require(file)
-            if data_Or_Function instanceof Function   # check if what was received from the coffee script is an object or an function
-              return data_Or_Function()
-            else
-              return data_Or_Function
-          catch err
-            console.log err                           # need better solution to log these errors
+          data = file.load_Json()
+          return data
     return null
 
   new_Team: (project, name, contents)->

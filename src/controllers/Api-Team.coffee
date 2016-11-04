@@ -31,6 +31,7 @@ class Api_Team extends Api_Base
                                                           # validation is needed here, see https://github.com/DinisCruz/BSIMM-Graphs/issues/18
     data = @.data_Team.get_Team_Data project, team        # get data
     if data
+
       res.setHeader('Content-Type', 'application/json');  # Issue 135 - API-Team add better way to handle pretty support and set JSON header
       
       if req.query?.pretty is ""                          # Issue 135 - API-Team add better way to handle pretty support and set JSON header
