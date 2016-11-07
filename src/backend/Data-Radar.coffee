@@ -38,7 +38,8 @@ class Data_Radar
     calculate = (prefix)=>
       score  = 0
       result = prefix: prefix, count :0 , yes_Count : 0, maybe_Count : 0
-      for key,value of team_Data?.activities when key.starts_With(prefix)           #
+      for key,data of team_Data?.activities when key.starts_With(prefix)           #
+        value = data.value
         result.count++
         if value is @.key_Yes                                                       # add Yes value
           result.yes_Count++

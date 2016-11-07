@@ -20,7 +20,7 @@ class Data_Stats
         for key, activity of schema.activities        
           score = scores["level_#{activity.level}"] ?= { value: 0, percentage:'', activities: 0}
           score.activities++                
-          value = data.activities?[key]
+          value = data.activities?[key]?.value
           if value
             switch value
               when 'Yes'   then score.value += @.score_Yes
@@ -31,7 +31,6 @@ class Data_Stats
         for key,score of scores
           score.value      = score.value.to_Decimal()
           score.percentage = Math.round((score.value / score.activities) * 100) + '%'
-        
     return scores
 
   teams_Scores: (project)=>

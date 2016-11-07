@@ -14,8 +14,23 @@ describe 'backend | Data-Team', ->
   it 'constructor',->
     using data_Team, ->
       @.constructor.name.assert_Is 'Data_Team'
-      @.new_Team_Prefix .assert_Is 'team-' 
+      @.new_Team_Prefix .assert_Is 'team-'
 
+  it 'check_Activity_Data', ->
+    using data_Team, ->
+
+      team_Data  = @.get_Team_Data project, team
+
+      test_Key   = 'XYZ.1.9'
+      test_Value = 'Thinking about it'
+      team_Data.activities[test_Key] = test_Value
+
+      @.check_Activity_Data team_Data                                               # test when value is a string
+      team_Data.activities[test_Key].assert_Is value: test_Value, proof: ''
+      team_Data.activities[test_Key] = { an : 'object'}
+
+      @.check_Activity_Data team_Data                                               # test when value is an object
+      team_Data.activities[test_Key].assert_Is { an : 'object', value: ''}
 
   it 'check_Metadata_Field', ->
     using data_Team, ->

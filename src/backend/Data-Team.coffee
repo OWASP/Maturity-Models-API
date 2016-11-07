@@ -5,6 +5,16 @@ class Data_Team
     @.data_Project    = new Data_Project();
     @.new_Team_Prefix = 'team-'
 
+  check_Activity_Data: (team_Data)=>                              # this function will ensure that the team_Data activities have the correct structure
+    if team_Data?.activities
+      for key of team_Data.activities
+        value = team_Data.activities[key]
+        if typeof value is 'object'
+          if not team_Data.activities[key].value                  # ensure that this value exists
+            team_Data.activities[key].value = ''
+        else
+          team_Data.activities[key] = { value: value , proof: ''} # change into new structure for team_Data.activities[key]
+    team_Data
 
   check_Metadata_Field: (project, team_Data)=>                    # this function will ensure that the team_Data object contains all schema.metadata fields
     if project and team_Data
@@ -15,9 +25,7 @@ class Data_Team
         for field in schema?.metadata                             # for each field
           if not team_Data.metadata[field]                        # if it doesn't exist in team_Data.metadata
             team_Data.metadata[field] = ''                        # create that field set it to ''
-
     team_Data
-
 
   delete_Team: (project, team)->
     team_Path = @.team_Path project, team  
@@ -47,8 +55,11 @@ class Data_Team
     file = @.team_Path project, team
     if file and file.file_Exists()
       switch file.file_Extension()
-        when '.json'
-          return @.check_Metadata_Field project, file.load_Json()
+        when '.json'                                            # only support .json files
+          team_Data = file.load_Json()
+          @.check_Metadata_Field project, team_Data             # fix metadata
+          @.check_Activity_Data team_Data                       # fix activities
+          return team_Data
     return null
 
   new_Team: (project, name, contents)->

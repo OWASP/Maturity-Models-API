@@ -41,8 +41,6 @@ describe 'bugs | backend | Data-Project', ->
     mapping_BSIMM._keys().assert_Is keys_BSIMM          # ok
     mapping_SAMM ._keys().assert_Is keys_SAMM           # ok
 
-
-  require 'fluentnode'
   # fixed
   it 'Performance issue on multiple Data_Project methods #167', ->
     start = Date.now()

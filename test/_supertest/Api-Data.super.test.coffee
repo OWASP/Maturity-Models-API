@@ -30,4 +30,4 @@ describe '_supertest | Api-Data', ->
 
   it '/data/:project/:team/radar', ()->
     check_Path_Json "/data/#{project}/#{team}/radar", (data)->
-      data.axes.first().assert_Is { value: 2.25}
+      data.axes.first().assert_Is { value: 1.5}

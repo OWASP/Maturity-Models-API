@@ -12,7 +12,6 @@ Loggly            = require './Loggly'
 Redirects         = require './Redirects'
 Api_Logs          = require '../controllers/Api-Logs'              # todo: move to a log service
 
-require 'fluentnode'
 
 class Server
   constructor: (options)->
