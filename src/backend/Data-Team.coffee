@@ -83,9 +83,9 @@ class Data_Team
 
     return @.team_Path(project, new_Name)?.file_Exists()                  # confirm new team was created ok
 
-  # Issue 26 - Data_Files.set_File_Data - DoS via file_Contents
-  # Issue 121 - Race condition on set_File_Data_Json method
-  # RISK-5: set_File_Data does not provide detailed information on why it failed  - https://maturity-models.atlassian.net/browse/RISK-5
+  # RISK - Data_Files.set_File_Data - DoS via file_Contents #26
+  # RISK - Race condition on set_File_Data_Json method #121
+  # RISK - set_File_Data does not provide detailed information on why it failed  - https://maturity-models.atlassian.net/browse/RISK-5
   set_Team_Data_Json: (project, team, json_Data) ->
     if not team or not json_Data                        # check if both values are set
       return null
@@ -102,10 +102,6 @@ class Data_Team
 
     if file_Path is null or file_Path.file_Not_Exists() # check if was able to resolve it
       return null
-       
-    if file_Path.file_Extension() isnt '.json'          # check that the team_Path file extension is .json
-      return null
-
 
     file_Path.file_Write json_Data                      # after all checks save file
 
