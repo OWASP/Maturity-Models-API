@@ -21,7 +21,13 @@ class Data_Radar
     schema = @.data_Project.project_Schema project
     offsets = [35, 10, 0, 13, 15, 15, -20, -20, 0, -5, -15 ,20]
     for name, practice of schema.practices
-      result.axes.push { axis: practice.key, key: practice.key, name: name, xOffset: offsets.pop(), value: 0 }
+      result.axes.push
+          axis      : practice.key,
+          key       : practice.key,
+          name      : name
+          xOffset   : offsets.pop(),
+          value     : 0
+          size      : practice.activities.size()
     return result
 
 
@@ -38,9 +44,13 @@ class Data_Radar
     calculate = (prefix)=>
       score  = 0
       result = prefix: prefix, count :0 , yes_Count : 0, maybe_Count : 0
+
+      for item in radar_Fields.axes when prefix.starts_With item.key              # todo: find better solution to get this value
+        result.count = item.size
+
       for key,data of team_Data?.activities when key.starts_With(prefix)           #
         value = data.value
-        result.count++
+        #result.count++
         if value is @.key_Yes                                                       # add Yes value
           result.yes_Count++
         if value is @.key_Maybe                                                     # add Maybe value

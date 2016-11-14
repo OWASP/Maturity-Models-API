@@ -12,8 +12,32 @@ describe 'backend | Data-Project', ->
   beforeEach ->
     project             = 'bsimm'
     team                = 'team-A'
-    expected_Mapping    = { SM: 0.75, CP: 1.1667, T: 1.3125, AM: 0.9375, SFD: 0.25, SR: 0.75, AA: 3, CR: 3, ST: 3, PT: 2.4375, SE: 1.25, CMVM: 1.0714 }
-    expected_Radar_Data = { axes: [ { value: 0.75 },{ value: 1.1667 }, { value: 1.3125 }, { value: 0.9375 }, { value: 0.25 }, { value: 0.75 }, { value: 3 }, { value: 3 }, { value: 3 }, { value: 2.4375 }, { value: 1.25 },{ value: 1.0714 } ] }
+    expected_Mapping    = {
+      SM: 0.4091,
+      CP: 0.9545,
+      T: 0.875,
+      AM: 0.375,
+      SFD: 0.1071,
+      SR: 0.525,
+      AA: 0.6667,
+      CR: 1.3636,
+      ST: 3,
+      PT: 1.3929,
+      SE: 1.875,
+      CMVM: 0.8333 }
+    expected_Radar_Data = { axes:
+      [ { value: 0.4091 },
+        { value: 0.9545 },
+        { value: 0.875 },
+        { value: 0.375 },
+        { value: 0.1071 },
+        { value: 0.525 },
+        { value: 0.6667 },
+        { value: 1.3636 },
+        { value: 3 },
+        { value: 1.3929 },
+        { value: 1.875 },
+        { value: 0.8333 } ] }
     data_Radar          = new Data_Radar()
 
   it 'constructor',->
@@ -33,13 +57,12 @@ describe 'backend | Data-Project', ->
     using data_Radar, ->
       using @.get_Radar_Fields(project), ->
         @.axes.assert_Size_Is 12
-        @.axes.first().assert_Is { axis: 'SM', name: "Strategy & Metrics" , key: 'SM', xOffset: 20, value: 0},
+        @.axes.first().assert_Is { axis: 'SM', name: "Strategy & Metrics" , key: 'SM', xOffset: 20, value: 0 , size:11}
 
 
   it 'get_Radar_Data', ->
     using data_Radar, ->
       data = @.get_Radar_Data project, team
-
       data.assert_Is expected_Radar_Data
 
 

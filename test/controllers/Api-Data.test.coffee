@@ -42,7 +42,7 @@ describe 'controllers | Api-Data', ->
         project: project
     res =
       json: (data)->
-        data.axes.first().assert_Is  { axis: 'SM', name: 'Strategy & Metrics', key: 'SM', xOffset: 20, value: 0 },
+        data.axes.first().assert_Is  { axis: 'SM', name: 'Strategy & Metrics', key: 'SM', xOffset: 20, value: 0 , size:11},
 
     using api_Data, ->
       @.radar_Fields(req,res)
@@ -54,7 +54,7 @@ describe 'controllers | Api-Data', ->
         team   : team
     res =
       json: (data)->
-        data.axes.first().value.assert_Is 0.75 #'Strategy & Metrics'
+        data.axes.first().value.assert_Is 0.4091  #'Strategy & Metrics'
 
     using api_Data, ->
       @.team_Radar(req,res)

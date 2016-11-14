@@ -26,8 +26,8 @@ describe '_supertest | Api-Data', ->
 
   it '/data/:project/radar/fields', ()->
     check_Path_Json "/data/#{project}/radar/fields", (data)->
-      data.axes.first().assert_Is { axis:'SM', name: "Strategy & Metrics" , key: 'SM', xOffset: 20, value: 0}
+      data.axes.first().assert_Is { axis:'SM', name: "Strategy & Metrics" , key: 'SM', xOffset: 20, value: 0 , size:11}
 
   it '/data/:project/:team/radar', ()->
     check_Path_Json "/data/#{project}/#{team}/radar", (data)->
-      data.axes.first().assert_Is { value: 1.5}
+      data.axes.first().assert_Is value: 0.8182
