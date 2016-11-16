@@ -90,7 +90,7 @@ describe 'bugs | backend | Data-Project', ->
       (Date.now() - start).assert_Smaller_Than 100
 
 
-  it 'bug on radar calculation', ->
+  it '#187 - bug on radar calculation', ->
     project       = 'bsimm'
     team          = 'team-A'
     data_Radar    = new Data_Radar()
