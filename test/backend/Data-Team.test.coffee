@@ -32,6 +32,20 @@ describe 'backend | Data-Team', ->
       @.check_Activity_Data team_Data                                               # test when value is an object
       team_Data.activities[test_Key].assert_Is { an : 'object', value: ''}
 
+  it 'check_Activity_Values', ->
+    using data_Team, ->
+      #temp_Team = @.new_Team(project)
+      team_Data = activities: {}  #@.get_Team_Data(project, temp_Team).assert_Is_Object()
+      schema    = @.data_Project.project_Schema project
+
+      team_Data.activities._keys().size().assert_Is 0                                # no mappings after team is created
+      @.check_Activity_Values project, team_Data
+      team_Data.activities._keys().assert_Is schema.activities._keys()               # these should be one mapping per schema.activities
+      for key,data of team_Data.activities
+        data.value.assert_Is 'No'                                                    # and they all should be no
+
+      #@.delete_Team(project, temp_Team).assert_Is_True()
+
   it 'check_Metadata_Field', ->
     using data_Team, ->
       expected_Metadata_Fields =  [ 'abc' ,

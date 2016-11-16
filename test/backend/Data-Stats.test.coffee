@@ -17,9 +17,7 @@ describe 'backend | Data-Stats', ->
       @.data_Team   .constructor.name.assert_Is 'Data_Team'
       @.data_Project.constructor.name.assert_Is 'Data_Project'
 
-  require 'fluentnode'
-
-  it.only 'activity_Scores', ->
+  it 'activity_Scores', ->
     using data_Stats, ->
       #@.activity_Scores(null).assert_Is {}
       #@.activity_Scores(-1  ).assert_Is {}

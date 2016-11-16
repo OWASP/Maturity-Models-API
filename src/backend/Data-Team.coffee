@@ -16,6 +16,15 @@ class Data_Team
           team_Data.activities[key] = { value: value , proof: ''} # change into new structure for team_Data.activities[key]
     team_Data
 
+  check_Activity_Values: (project, team_Data)=>                            # this function will ensure that there is at least a NO value for each activity (i.e. not empty activity values allowed)
+    if team_Data?.activities
+      schema    = @.data_Project.project_Schema project
+      for activity of schema.activities
+        if not team_Data.activities[activity]
+          team_Data.activities[activity] = { value: 'No', proof: '' }
+          #console.log activity
+    return team_Data
+
   check_Metadata_Field: (project, team_Data)=>                    # this function will ensure that the team_Data object contains all schema.metadata fields
     if project and team_Data
       schema = @.data_Project.project_Schema project              # get schema for project
@@ -59,6 +68,7 @@ class Data_Team
           team_Data = file.load_Json()
           @.check_Metadata_Field project, team_Data             # fix metadata
           @.check_Activity_Data team_Data                       # fix activities
+          @.check_Activity_Values project, team_Data            # fix empty activity values
           return team_Data
     return null
 
