@@ -13,11 +13,16 @@ class Api_Data extends Api_Base
 
   add_Routes: ->
     @.add_Route 'get' , '/project/scores/:project'       , @.teams_Scores
+    @.add_Route 'get' , '/project/activities/:project'   , @.activities_Scores
     @.add_Route 'get' , '/data/:project/radar/fields'    , @.radar_Fields
     @.add_Route 'get' , '/data/:project/:team/radar'     , @.team_Radar
     @.add_Route 'get' , '/data/:project/:team/score'     , @.team_Score
 
     @
+
+  activities_Scores : (req, res)=>
+    project = req.params?.project
+    res.json @.data_Stats.activity_Scores project
 
   radar_Fields: (req, res)=>
     project = req.params?.project

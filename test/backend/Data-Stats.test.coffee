@@ -19,13 +19,10 @@ describe 'backend | Data-Stats', ->
 
   it 'activity_Scores', ->
     using data_Stats, ->
-      #@.activity_Scores(null).assert_Is {}
-      #@.activity_Scores(-1  ).assert_Is {}
-      #@.activity_Scores(""  ).assert_Is {}
-
       result = @.activity_Scores project
-
-      console.log result
+      result['SM.1.1'].Yes.assert_Contains ['level-1', 'level-2', 'level-3', 'team-A', 'team-B']
+      result['SM.1.1'].No.size().assert_Is_Bigger_Than 5
+      result._keys().size().assert_Is_Bigger_Than 100
 
   it 'team_Score', ->
     using data_Stats, ->

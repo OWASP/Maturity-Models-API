@@ -14,7 +14,7 @@ describe 'backend | Data-Project', ->
     team                = 'team-A'
     expected_Mapping    = {
       SM: 0.4091,
-      CP: 0.9545,
+      CP: 0.8182,
       T: 0.875,
       AM: 0.375,
       SFD: 0.1071,
@@ -27,7 +27,7 @@ describe 'backend | Data-Project', ->
       CMVM: 0.8333 }
     expected_Radar_Data = { axes:
       [ { value: 0.4091 },
-        { value: 0.9545 },
+        { value: 0.8182 },
         { value: 0.875 },
         { value: 0.375 },
         { value: 0.1071 },

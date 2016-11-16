@@ -91,6 +91,7 @@ describe 'server | Server', ->
       @.add_Angular_Route()
       version = '/api/v1'
       expected_Routes = [ '/', '/ping',  '/view*'
+                          "#{version}/project/activities/:project"
                           "#{version}/project/scores/:project"
                           "#{version}/data/:project/radar/fields"
                           "#{version}/data/:project/:team/radar"

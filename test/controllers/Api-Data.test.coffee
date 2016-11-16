@@ -21,7 +21,7 @@ describe 'controllers | Api-Data', ->
 
   it 'add_Routes',->
     using api_Data, ->
-      @.routes_Added.size().assert_Is 4
+      @.routes_Added.size().assert_Is 5
 
   it 'projects_Scores', ->
     req = 

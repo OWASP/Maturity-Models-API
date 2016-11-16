@@ -10,12 +10,11 @@ class Data_Stats
     @.score_NA     = 1
     @.score_Maybe  = 0.2
 
-
   activity_Scores: (project)=>
 
     all_Scores = {}
     teams = @.data_Team.teams_Names project
-    for team in teams.take(20)
+    for team in teams
 
       team_Data   = @.data_Team.get_Team_Data(project, team)
       if team_Data?.activities
