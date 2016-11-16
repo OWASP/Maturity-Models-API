@@ -10,6 +10,28 @@ class Data_Stats
     @.score_NA     = 1
     @.score_Maybe  = 0.2
 
+
+  activity_Scores: (project)=>
+
+    all_Scores = {}
+    teams = @.data_Team.teams_Names project
+    for team in teams.take(20)
+
+      team_Data   = @.data_Team.get_Team_Data(project, team)
+      if team_Data?.activities
+        #all_Scores[team] = {}
+        for key, activity of team_Data?.activities
+          if key and activity.value
+            all_Scores[key] ?= {}
+            all_Scores[key][activity.value] ?= []
+            all_Scores[key][activity.value].push team
+          #if activity.value is 'Yes'
+          #  console.log key, activity
+
+        #console.log team_Data?.activities
+
+    return all_Scores
+
   team_Score: (project, team)=>
     scores = {}
 
@@ -38,5 +60,7 @@ class Data_Stats
     for team in @.data_Team.teams_Names(project)
       all_Scores[team] = @.team_Score project, team
     all_Scores
+
+
 
 module.exports = Data_Stats  
