@@ -21,7 +21,7 @@ describe 'backend | Data-Stats', ->
     using data_Stats, ->
       result = @.activity_Scores project
       result['SM.1.1'].Yes.assert_Contains ['level-1', 'level-2', 'level-3', 'team-A', 'team-B']
-      result['SM.1.1'].No.size().assert_Is_Bigger_Than 5
+      result['SM.1.1'].No.size().assert_Is_Bigger_Than 1
       result._keys().size().assert_Is_Bigger_Than 100
 
   it 'team_Score', ->
