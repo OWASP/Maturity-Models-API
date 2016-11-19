@@ -7,10 +7,15 @@ class Api_Project extends Api_Base
     super()
 
   add_Routes: ()=>
+    @.add_Route 'get', '/project/caches/clear'   , @.caches_Clear
     @.add_Route 'get', '/project/get/:project'   , @.get
     @.add_Route 'get', '/project/list'           , @.list
     @.add_Route 'get', '/project/schema/:project', @.schema
     @
+
+  caches_Clear: (req,res)=>
+    @.data_Project.clear_Caches()
+    res.json { status: 'OK' }
 
   get: (req,res)=>
     project = req.params?.project

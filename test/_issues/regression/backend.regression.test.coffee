@@ -30,6 +30,16 @@ describe 'bugs | backend | Data-Project', ->
         @.axes.second().assert_Is_Not { axis: "Operational Enablement" , xOffset: -110, value: 0}    # this is what it should be (SAMM value)
 
 
+  it '#136 - Add test to delete all temp team ', ->
+    using new Data_Team(), ->
+      project = 'bsimm'
+      @.new_Team(project)   #
+      temp_Teams = (name for name, path of @.teams(project) when path.contains('new_teams')).assert_Not_Empty()
+
+      for team in temp_Teams.assert_Not_Empty()
+        @.delete_Team(project, team)
+
+      (name for name, path of @.teams(project) when path.contains('new_teams')).assert_Is []
 
   it '#164 - Fix Radar bug in OwaspSAMM graph - (prob with get_Radar_Data)', ->
     project = 'samm'

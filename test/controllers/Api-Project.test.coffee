@@ -16,7 +16,15 @@ describe 'controllers | Api-Project', ->
   it 'add_Routes', ()->
     using new Api_Project(), ->
       @.add_Routes()
-      @.router.stack.assert_Size_Is 3
+      @.router.stack.assert_Size_Is 4
+
+  it 'caches_Clear', ()->
+    res =
+      json: (data)->
+        data.assert_Is status : 'OK'
+
+    using new Api_Project(), ->
+      @.caches_Clear(null, res)
 
   it 'get (null)', ()->
     req = params : team : null
