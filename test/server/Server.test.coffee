@@ -73,8 +73,6 @@ describe 'server | Server', ->
     using server, ->
       @.setup_Server()
       @.setup_Logging()
-      @.logs_Stream.assert_Is_Object()                # note: not sure how to test this better, neet to look at how morgan stream works
-      @.logs_Morgan.assert_Is_Function()
 
   it 'server_Url', ->
     using server, ->
@@ -96,9 +94,6 @@ describe 'server | Server', ->
                           "#{version}/data/:project/radar/fields"
                           "#{version}/data/:project/:team/radar"
                           "#{version}/data/:project/:team/score"
-                          "#{version}/logs/path"
-                          "#{version}/logs/list"
-                          "#{version}/logs/file/:index"
                           "#{version}/team/:project/list"
                           "#{version}/team/:project/delete/:team"
                           "#{version}/team/:project/get/:team"

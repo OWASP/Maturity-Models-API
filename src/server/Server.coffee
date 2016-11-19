@@ -9,8 +9,7 @@ d3                = require 'd3'
 morgan            = require 'morgan'
 Routes            = require './Routes'
 Loggly            = require './Loggly'
-Redirects         = require './Redirects'
-Api_Logs          = require '../controllers/Api-Logs'              # todo: move to a log service
+Redirects         = require './Redirects'             # todo: move to a log service
 
 
 class Server
@@ -19,7 +18,6 @@ class Server
     @.options  = options || {}
     @.server   = null
     @.port     = @.options.port || process.env.PORT || 3000
-    @.api_Logs = new Api_Logs()
 
   setup_Server: =>    
     @.app = express()
@@ -47,12 +45,10 @@ class Server
     api_Path  = '/api/v1'
     Api_Data    = require '../controllers/Api-Data'             # Refactor how controllers are loaded #96
     Api_Team    = require '../controllers/Api-Team'
-    Api_Logs    = require '../controllers/Api-Logs'
     Api_Project = require '../controllers/Api-Project'
     Api_Routes  = require '../controllers/Api-Routes'
 
     @.app.use api_Path , new Api_Data(   ).add_Routes().router
-    @.app.use api_Path , new Api_Logs(   ).add_Routes().router
     @.app.use api_Path , new Api_Team(   ).add_Routes().router
     @.app.use api_Path , new Api_Project().add_Routes().router
     
@@ -64,16 +60,6 @@ class Server
     @
 
   setup_Logging: =>
-    @.logs_Options =
-      date_format: 'YYYY_MM_DD-hh_mm',
-      filename   : @.api_Logs.logs_Folder + '/logs-%DATE%.log',
-      frequency  : '12h',
-      verbose    : false
-
-    @.logs_Stream = FileStreamRotator.getStream @.logs_Options
-    @.logs_Morgan = morgan 'combined', { stream: @.logs_Stream }
-    @.app.use @.logs_Morgan
-
     @.loggly = new Loggly().setup(@.app)
 
 
