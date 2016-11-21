@@ -9,6 +9,7 @@ d3                = require 'd3'
 morgan            = require 'morgan'
 Routes            = require './Routes'
 Loggly            = require './Loggly'
+Logsene           = require './Logsene'
 Redirects         = require './Redirects'             # todo: move to a log service
 
 
@@ -60,7 +61,8 @@ class Server
     @
 
   setup_Logging: =>
-    @.loggly = new Loggly().setup(@.app)
+    #@.loggly = new Loggly().setup(@.app)
+    @.logsene = new Logsene().setup(@.app)
 
 
   start_Server: =>

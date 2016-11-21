@@ -1,7 +1,7 @@
 winston  = require('winston');
 
 
-class Loggly
+class Logsene
   constructor: ->
     @.logger = null
     @.app    = null
@@ -18,21 +18,31 @@ class Loggly
     data
 
   token: ()=>
-    return process.env.LOGGLY_TOKEN || null
+    return process.env.LOGSENE_TOKEN || null
 
 
   setup: (app)=>
     @.app = app
     if not @.token()
-      console.log 'Logging is not enabled. Set process.env.LOGGLY_TOKEN to the desired Loggly account token'
+      console.log 'Logging is not enabled. Set process.env.LOGSENE_TOKEN to the desired Logsene account token'
     else
-      require('winston-loggly-bulk');
-      console.log "Adding loggly support using token: #{@.token()}"
+      @.logsene = require('winston-logsene')
 
+      @.options =
+        token: @.token()
+        ssl: 'true'
 
-      logger_Options = transports: [ new winston.transports.Loggly(@.options())]
+      console.log "Adding Logsene support using token: #{@.token()}"
 
-      @.logger = new winston.Logger logger_Options
+      logsene_Options = transports: [ new @.logsene(@.options)]
+      #console.log @.logsene
+      #console.log winston.Logger
+      #console.log winston.transports.Logsene
+      @.logger = new winston.Logger logsene_Options
+      #console.log @.logger.info('this is an info message')
+    #      logger_Options = transports: [ new winston.transports.Loggly(@.options())]
+#
+#      @.logger = new winston.Logger logger_Options
       app?.use (req, res, next) =>
         @.log_Just_Path    req
         @.log_Request_Data req
@@ -62,4 +72,4 @@ class Loggly
 
     @.log log_Data
 
-module.exports = Loggly
+module.exports = Logsene
