@@ -47,7 +47,7 @@ describe 'backend | Data-Team', ->
     using data_Team, ->
       expected_Metadata_Fields =  [ 'abc' ,
                                     'team', 'security-champion', 'source-code-repo',
-                                    'issue-tracking', 'wiki','ci-server','created-by'     ]
+                                    'issue-tracking', 'wiki','ci-server','created-by','hide-from-stats']
 
       team_Data = @.get_Team_Data project, team                     # get team data
       original_Metadata   = team_Data.metadata.json_Str()           # store copy of metadata (as a serialised JSON)
@@ -128,7 +128,7 @@ describe 'backend | Data-Team', ->
     using data_Team, ->      
       data = @.get_Team_Data project, team
       data.metadata.team.assert_Is 'Team A'
-      data.metadata._keys().assert_Is [ 'team','security-champion', 'source-code-repo','issue-tracking', 'wiki', 'ci-server', 'created-by' ]
+      data.metadata._keys().assert_Is [ 'team','security-champion', 'source-code-repo','issue-tracking', 'wiki', 'ci-server', 'created-by' , 'hide-from-stats']
 
   it 'new_Team', ->    
     using data_Team, ->

@@ -17,17 +17,13 @@ class Data_Stats
     for team in teams
 
       team_Data   = @.data_Team.get_Team_Data(project, team)
-      if team_Data?.activities
-        #all_Scores[team] = {}
-        for key, activity of team_Data?.activities
-          if key and activity.value
-            all_Scores[key] ?= {}
-            all_Scores[key][activity.value] ?= []
-            all_Scores[key][activity.value].push team
-          #if activity.value is 'Yes'
-          #  console.log key, activity
-
-        #console.log team_Data?.activities
+      if team_Data?.metadata['hide-from-stats'] isnt 'yes'
+        if team_Data?.activities
+          for key, activity of team_Data?.activities
+            if key and activity.value
+              all_Scores[key] ?= {}
+              all_Scores[key][activity.value] ?= []
+              all_Scores[key][activity.value].push team
 
     return all_Scores
 

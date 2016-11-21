@@ -20,9 +20,28 @@ describe 'backend | Data-Stats', ->
   it 'activity_Scores', ->
     using data_Stats, ->
       result = @.activity_Scores project
-      result['SM.1.1'].Yes.assert_Contains ['level-1', 'level-2', 'level-3', 'team-A', 'team-B']
+      result['SM.1.1'].Yes.assert_Contains ['team-A', 'team-B']
       result['SM.1.1'].No.size().assert_Is_Bigger_Than 1
       result._keys().size().assert_Is_Bigger_Than 100
+
+  it 'activity_Scores (hide-from-stats workflow)', ->
+    using data_Stats, ->
+      team_Name = @.data_Team.create_Team(project)
+      @.activity_Scores(project)['SM.1.1'].No.assert_Contains team_Name
+      team_Data = @.data_Team.get_Team_Data project, team_Name
+      team_Data.metadata['hide-from-stats'] = 'yes'
+      @.data_Team.save_Team(project, team_Name, team_Data).assert_Is_True()
+      @.data_Team.get_Team_Data(project, team_Name).metadata['hide-from-stats'].assert_Is 'yes'
+      @.activity_Scores(project)['SM.1.1'].No.assert_Not_Contains team_Name
+      @.activity_Scores(project)['SM.1.1'].Yes.assert_Not_Contains team_Name
+
+      team_Data.metadata['hide-from-stats'] = 'no'
+      @.data_Team.save_Team(project, team_Name, team_Data).assert_Is_True()
+      @.data_Team.get_Team_Data(project, team_Name).metadata['hide-from-stats'].assert_Is 'no'
+      @.activity_Scores(project)['SM.1.1'].No.assert_Contains team_Name
+      @.activity_Scores(project)['SM.1.1'].Yes.assert_Not_Contains team_Name
+
+      @.data_Team.delete_Team(project, team_Name).assert_Is_True()
 
   it 'team_Score', ->
     using data_Stats, ->
@@ -52,17 +71,14 @@ describe 'backend | Data-Stats', ->
         @[team].level_1.value.assert_Is 19.4
 
 
-  # happens when number of teams is 150+
-#  it 'Issue x - performance issue with @.teams_Scores', ->
-#    @.timeout 4000
-#
-#    using data_Stats, ->
-#      teams =  @.data_Team.teams_Names(project)
-#      #teams.size().assert_Is_Bigger_Than 150
-#      start =  Date.now()
-#      using @.teams_Scores(project),->
-#        console.log "final:  > " +  (Date.now() - start)
-#        #(Date.now() - start).assert_Is_Bigger_Than 400  # this shouldn't be so high
-#        #(Date.now() - start).assert_Is_Bigger_Than 3000  # this shouldn't be so high
-#
-#        #@[team].level_1.value.assert_Is_19.4
+  it 'check performance issue with @.teams_Scores', ->
+    @.timeout 4000
+
+    using data_Stats, ->
+      #teams =  @.data_Team.teams_Names(project)
+      start =  Date.now()
+      using @.teams_Scores(project),->
+        #console.log "final:  > " +  (Date.now() - start)
+        #console.log (Date.now() - start)
+        (Date.now() - start).assert_Smaller_Than 100
+        @[team].level_1.value.assert_Is 19.4

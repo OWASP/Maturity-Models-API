@@ -42,7 +42,7 @@ describe 'controllers | Api-Team', ->
         name.assert_Is 'Content-Type'
         value.assert_Is 'application/json'
       send: (data)->
-        data.metadata._keys().assert_Is [ 'team','security-champion', 'source-code-repo','issue-tracking', 'wiki', 'ci-server', 'created-by' ]
+        data.metadata._keys().assert_Is [ 'team','security-champion', 'source-code-repo','issue-tracking', 'wiki', 'ci-server', 'created-by' , 'hide-from-stats']
         data.metadata.team.assert_Is 'Team A'
 
     using api_Team, ->

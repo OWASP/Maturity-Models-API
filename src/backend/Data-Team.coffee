@@ -36,6 +36,8 @@ class Data_Team
             team_Data.metadata[field] = ''                        # create that field set it to ''
     team_Data
 
+  create_Team: ()=> @.new_Team.apply @, arguments
+
   delete_Team: (project, team)->
     team_Path = @.team_Path project, team  
     if team_Path
@@ -72,7 +74,7 @@ class Data_Team
           return team_Data
     return null
 
-  new_Team: (project, name, contents)->
+  new_Team: (project, name, contents)=>
     target_Folder = @.data_Project.project_Path_Teams(project)
     if target_Folder
       target_Folder = target_Folder.path_Combine 'new_teams'              # for now put them here
@@ -104,7 +106,12 @@ class Data_Team
 
     return @.team_Path(project, new_Name)?.file_Exists()                  # confirm new team was created ok
 
-  # RISK - Data_Files.set_File_Data - DoS via file_Contents #26
+  # use to save object (vs set_Team_Data_Json which takes a string)
+  save_Team: (project, team, data)=>
+    @.set_Team_Data_Json project, team, data.json_Str()
+
+
+# RISK - Data_Files.set_File_Data - DoS via file_Contents #26
   # RISK - Race condition on set_File_Data_Json method #121
   # RISK - set_File_Data does not provide detailed information on why it failed  - https://maturity-models.atlassian.net/browse/RISK-5
   set_Team_Data_Json: (project, team, json_Data) ->
