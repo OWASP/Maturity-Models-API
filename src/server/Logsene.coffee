@@ -39,6 +39,11 @@ class Logsene
       #console.log winston.Logger
       #console.log winston.transports.Logsene
       @.logger = new winston.Logger logsene_Options
+
+
+      @.logger.on 'error',  ()->
+        console.error('error in winston-logsene', arguments)  # https://github.com/sematext/winston-logsene/issues/8
+
       #console.log @.logger.info('this is an info message')
     #      logger_Options = transports: [ new winston.transports.Loggly(@.options())]
 #
