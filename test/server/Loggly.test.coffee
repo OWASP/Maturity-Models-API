@@ -22,6 +22,7 @@ describe 'server | Loggly', ->
       process.env.LOGGLY_TOKEN = 'abc'        # set environment value
       @.token().assert_Is 'abc'               # confirm it
       delete process.env.LOGGLY_TOKEN         # remove it
+      @.setup()
 
 
   it 'setup', (done)->

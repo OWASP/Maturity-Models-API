@@ -35,19 +35,14 @@ class Logsene
       console.log "Adding Logsene support using token: #{@.token()}"
 
       logsene_Options = transports: [ new @.logsene(@.options)]
-      #console.log @.logsene
-      #console.log winston.Logger
-      #console.log winston.transports.Logsene
+
       @.logger = new winston.Logger logsene_Options
 
 
-      @.logger.on 'error',  ()->
-        console.error('error in winston-logsene', arguments)  # https://github.com/sematext/winston-logsene/issues/8
+      #@.logger.on 'error',  ()->
+      #  console.error('error in winston-logsene', arguments)  # https://github.com/sematext/winston-logsene/issues/8
 
-      #console.log @.logger.info('this is an info message')
-    #      logger_Options = transports: [ new winston.transports.Loggly(@.options())]
-#
-#      @.logger = new winston.Logger logger_Options
+
       app?.use (req, res, next) =>
         @.log_Just_Path    req
         @.log_Request_Data req
