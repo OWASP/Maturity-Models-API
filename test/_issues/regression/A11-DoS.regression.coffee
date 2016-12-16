@@ -64,7 +64,7 @@ describe '_issues | regression | A11 - DoS', ->
       #items = [0..5000 ]   # 5000 takes 15ms   before #167 it was 1698ms (before it was 12000ms)
       async.each items, test_List, ->
         duration = Date.now() - start
-        console.log duration
+        #console.log duration
         duration.assert_Smaller_Than 10        # in travis we had execution times of less than 25ms
 
 

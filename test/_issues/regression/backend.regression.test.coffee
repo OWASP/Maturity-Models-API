@@ -19,7 +19,7 @@ describe 'bugs | backend | Data-Project', ->
     result['SE'  ].assert_Is_Not wrong_Value
 
     result['CMVM'].assert_Is 0.8333
-    result['SE'  ].assert_Is 1.875
+    result['SE'  ].assert_Is 1.5
 
   it '#164 - Fix Radar bug in OwaspSAMM graph', ->
     project = 'samm'

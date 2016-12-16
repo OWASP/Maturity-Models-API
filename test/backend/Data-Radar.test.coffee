@@ -18,12 +18,12 @@ describe 'backend | Data-Project', ->
       T: 0.875,
       AM: 0.375,
       SFD: 0.1071,
-      SR: 0.525,
+      SR: 0.45,
       AA: 0.6667,
       CR: 1.3636,
-      ST: 3,
+      ST: 2.6667,
       PT: 1.3929,
-      SE: 1.875,
+      SE: 1.5,
       CMVM: 0.8333 }
     expected_Radar_Data = { axes:
       [ { value: 0.4091 },
@@ -31,12 +31,12 @@ describe 'backend | Data-Project', ->
         { value: 0.875 },
         { value: 0.375 },
         { value: 0.1071 },
-        { value: 0.525 },
+        { value: 0.45 },
         { value: 0.6667 },
         { value: 1.3636 },
-        { value: 3 },
+        { value: 2.6667 },
         { value: 1.3929 },
-        { value: 1.875 },
+        { value: 1.5 },
         { value: 0.8333 } ] }
     data_Radar          = new Data_Radar()
 
