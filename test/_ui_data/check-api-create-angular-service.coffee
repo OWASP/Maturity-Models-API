@@ -49,6 +49,7 @@ describe '_ui_data | create api , create angular service' ,->
   it '/project/activities/bsimm'  , -> make_Request_And_Save "#{version}/project/activities/bsimm"
 
   #samm
+  it '/project/get/samm'          , -> make_Request_And_Save "#{version}/project/get/samm"
   it '/project/activities/samm'   , -> make_Request_And_Save "#{version}/project/activities/samm"
   it '/project/scores/samm'       , -> make_Request_And_Save "#{version}/project/scores/samm"
   it '/project/schema/samm'       , -> make_Request_And_Save "#{version}/project/schema/samm"
