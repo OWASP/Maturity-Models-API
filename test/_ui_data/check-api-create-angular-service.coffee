@@ -27,7 +27,16 @@ describe '_ui_data | create api , create angular service' ,->
     request(app)
       .get(path).expect(200)
       .expect (res)->
-        save_Data_Into_Data_Folder path, res.body
+        save_Data_Into_Data_Folder path, res.body, skip_If_Exists
+
+  # handle cases like /new which will always create a new file
+  skip_If_Exists = (path)->
+    file_Path = "#{path_UI_Code}/#{path.to_Safe_String()}.coffee"
+    if file_Path.file_Not_Exists()
+      make_Request_And_Save path
+    else
+      console.log ">>>>>>>  SKIPPING #{path}"
+
 
   #misc
   it 'api/v1/routes'              , -> make_Request_And_Save "#{version}/routes"
@@ -40,7 +49,7 @@ describe '_ui_data | create api , create angular service' ,->
   it '/data/bsimm/team-A/score'   , -> make_Request_And_Save "#{version}/data/bsimm/team-A/score"
   it '/data/bsimm/team-A/radar'   , -> make_Request_And_Save "#{version}/data/bsimm/team-A/radar"
   it '/data/bsimm/radar/fields'   , -> make_Request_And_Save "#{version}/data/bsimm/radar/fields"
-  it '/team/bsimm/new'            , -> make_Request_And_Save "#{version}/team/bsimm/new"
+  it '/team/bsimm/new'            , -> skip_If_Exists         "#{version}/team/bsimm/new"            # handle this differently since it will create a new file on every request and affect other data objects
   it '/team/bsimm/get/team-A'     , -> make_Request_And_Save "#{version}/team/bsimm/get/team-A"
 
   it '/project/get/bsimm'         , -> make_Request_And_Save "#{version}/project/get/bsimm"

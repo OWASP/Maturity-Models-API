@@ -21,7 +21,7 @@ describe 'backend | Data-Stats', ->
     using data_Stats, ->
       result = @.activity_Scores project
       result['SM.1.1'].Yes.assert_Contains ['team-A', 'team-B']
-      result['SM.1.1'].No.size().assert_Is_Bigger_Than 1
+      result['SM.1.1'].No.size().assert_Is_Bigger_Than 0
       result._keys().size().assert_Is_Bigger_Than 100
 
   it 'activity_Scores (hide-from-stats workflow)', ->
