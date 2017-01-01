@@ -49,7 +49,7 @@ describe '_ui_data | create api , create angular service' ,->
   it '/data/bsimm/team-A/score'   , -> make_Request_And_Save "#{version}/data/bsimm/team-A/score"
   it '/data/bsimm/team-A/radar'   , -> make_Request_And_Save "#{version}/data/bsimm/team-A/radar"
   it '/data/bsimm/radar/fields'   , -> make_Request_And_Save "#{version}/data/bsimm/radar/fields"
-  it '/team/bsimm/new'            , -> skip_If_Exists         "#{version}/team/bsimm/new"            # handle this differently since it will create a new file on every request and affect other data objects
+  it '/team/bsimm/new'            , -> skip_If_Exists        "#{version}/team/bsimm/new"            # handle this differently since it will create a new file on every request and affect other data objects
   it '/team/bsimm/get/team-A'     , -> make_Request_And_Save "#{version}/team/bsimm/get/team-A"
 
   it '/project/get/bsimm'         , -> make_Request_And_Save "#{version}/project/get/bsimm"
