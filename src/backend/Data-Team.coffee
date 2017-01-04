@@ -55,6 +55,15 @@ class Data_Team
   teams_Paths: (project)=>
     @.teams(project).values()
 
+  teams_Proofs: (project)=>
+    proofs = {}
+    for team in @.teams_Names(project)
+      data = @.get_Team_Data project, team
+      for key, value of data?.activities
+        proofs[key]      ?= {}
+        proofs[key][team] = value
+    return proofs
+
   team_Path: (project, team)=>
     if project and team
       team_Paths = @.teams(project)

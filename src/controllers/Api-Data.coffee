@@ -12,12 +12,12 @@ class Api_Data extends Api_Base
     super()
 
   add_Routes: ->
-    @.add_Route 'get' , '/project/scores/:project'       , @.teams_Scores
-    @.add_Route 'get' , '/project/activities/:project'   , @.activities_Scores
-    @.add_Route 'get' , '/data/:project/radar/fields'    , @.radar_Fields
+    @.add_Route 'get' , '/project/scores/:project'       , @.teams_Scores       # rename to /teams/scores/:project
+    @.add_Route 'get' , '/project/activities/:project'   , @.activities_Scores  # rename to /teams/activities/:project
+    @.add_Route 'get' , '/teams/proofs/:project'         , @.teams_Proofs
+    @.add_Route 'get' , '/data/:project/radar/fields'    , @.radar_Fields       # todo: rename to deal with 'radar' name conflic
     @.add_Route 'get' , '/data/:project/:team/radar'     , @.team_Radar
     @.add_Route 'get' , '/data/:project/:team/score'     , @.team_Score
-
     @
 
   activities_Scores : (req, res)=>
@@ -46,6 +46,10 @@ class Api_Data extends Api_Base
     team    = req.params?.team
     res.json @.data_Stats.team_Score project, team
 
+
+  teams_Proofs:  (req,res)=>
+    project = req.params?.project
+    res.json @.data_Team.teams_Proofs project
 
 
 module.exports = Api_Data

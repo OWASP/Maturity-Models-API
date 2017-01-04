@@ -91,6 +91,7 @@ describe 'server | Server', ->
       expected_Routes = [ '/', '/ping',  '/view*'
                           "#{version}/project/caches/clear"
                           "#{version}/project/activities/:project"
+                          "#{version}/teams/proofs/:project"
                           "#{version}/project/scores/:project"
                           "#{version}/data/:project/radar/fields"
                           "#{version}/data/:project/:team/radar"

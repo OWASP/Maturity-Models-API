@@ -37,7 +37,7 @@ class Data_Project
     projects = @.projects()
     if projects[project]
       return projects[project].path_Teams
-    return null  
+    return null
 
   # returns a list of current projects (which are defined by a folder containing an maturity-model.json )
   projects: ()=>

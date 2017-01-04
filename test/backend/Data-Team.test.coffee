@@ -113,6 +113,14 @@ describe 'backend | Data-Team', ->
       @.teams_Paths(project).assert_Not_Empty()
       @.teams_Paths(project).first().assert_File_Exists()
 
+  it 'teams_Proofs', ->
+    using data_Team.teams_Proofs(project), ->
+      @._keys().first().assert_Is 'SM.1.1'
+      @['SM.1.1']['team-A'].assert_Is  { value: 'Yes', proof: 'proof 1' },
+
+    using data_Team.teams_Proofs(null), ->
+      @.assert_Is {}
+
   it 'team_Path', ->
     using data_Team, ->
       team_A = @.team_Path project, 'team-A'

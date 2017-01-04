@@ -21,7 +21,7 @@ describe 'controllers | Api-Data', ->
 
   it 'add_Routes',->
     using api_Data, ->
-      @.routes_Added.size().assert_Is 5
+      @.routes_Added.size().assert_Is 6
 
   it 'projects_Scores', ->
     req = 
@@ -70,3 +70,16 @@ describe 'controllers | Api-Data', ->
 
     using api_Data, ->
       @.team_Score(req,res)
+
+  it 'teams_Proofs', ->
+    req =
+      params:
+        project: project
+        team   : team
+    res =
+      json: (data)->
+        data._keys().assert_Is_Bigger_Than 17
+                    .assert_Contains  ['SM.1.1', 'SM.1.2']
+
+    using api_Data, ->
+      @.teams_Proofs(req,res)
