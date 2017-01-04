@@ -52,6 +52,8 @@ describe '_ui_data | create api , create angular service' ,->
   it '/team/bsimm/new'            , -> skip_If_Exists        "#{version}/team/bsimm/new"            # handle this differently since it will create a new file on every request and affect other data objects
   it '/team/bsimm/get/team-A'     , -> make_Request_And_Save "#{version}/team/bsimm/get/team-A"
 
+  it '/teams/proofs/bsimm'        , -> make_Request_And_Save "#{version}/teams/proofs/bsimm"
+
   it '/project/get/bsimm'         , -> make_Request_And_Save "#{version}/project/get/bsimm"
   it '/project/schema/bsimm'      , -> make_Request_And_Save "#{version}/project/schema/bsimm"
   it '/project/scores/bsimm'      , -> make_Request_And_Save "#{version}/project/scores/bsimm"
