@@ -65,6 +65,6 @@ describe '_issues | regression | A11 - DoS', ->
       async.each items, test_List, ->
         duration = Date.now() - start
         #console.log duration
-        duration.assert_In_Between 1, 10        # in travis we had execution times of less than 25ms
+        duration.assert_In_Between 0, 10        # in travis we had execution times of less than 25ms
 
 
