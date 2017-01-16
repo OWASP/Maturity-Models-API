@@ -7,10 +7,11 @@ class Api_Project extends Api_Base
     super()
 
   add_Routes: ()=>
-    @.add_Route 'get', '/project/caches/clear'   , @.caches_Clear
-    @.add_Route 'get', '/project/get/:project'   , @.get
-    @.add_Route 'get', '/project/list'           , @.list
-    @.add_Route 'get', '/project/schema/:project', @.schema
+    @.add_Route 'get', '/project/caches/clear'           , @.caches_Clear
+    @.add_Route 'get', '/project/get/:project'           , @.get
+    @.add_Route 'get', '/project/list'                   , @.list
+    @.add_Route 'get', '/project/schema/:project'        , @.schema
+    @.add_Route 'get', '/project/schema-details/:project', @.schema_Details
     @
 
   caches_Clear: (req,res)=>
@@ -27,5 +28,9 @@ class Api_Project extends Api_Base
   schema: (req,res)=>
     project = req.params?.project
     res.json @.data_Project.project_Schema(project)
+
+  schema_Details: (req,res)=>
+    project = req.params?.project
+    res.json @.data_Project.project_Schema_Details(project)
 
 module.exports = Api_Project

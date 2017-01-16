@@ -3,9 +3,10 @@ cache_project_Files = {}
 
 class Data_Project
   constructor: ()->
-    @.data_Path       = __dirname.path_Combine('../../../../data')
-    @.config_File     = "maturity-model.json"
-    @.schema_File     = "schema.json"
+    @.data_Path           = __dirname.path_Combine('../../../../data')
+    @.config_File         = "maturity-model.json"
+    @.schema_File         = "schema.json"
+    @.schema_Details_File = "schema-details.json"
 
   clear_Caches: ()->
     cache_Projects      = null
@@ -25,6 +26,12 @@ class Data_Project
     return using (@.projects()[id]),->
       if @.path_Schema?.file_Exists()
           return @.path_Schema.load_Json()
+      return {}
+
+  project_Schema_Details: (project)=>
+    return using (@.projects()[project]),->
+      if @.path_Schema_Details?.file_Exists()
+        return @.path_Schema_Details.load_Json()
       return {}
 
   project_Path_Root: (project)=>
@@ -49,10 +56,11 @@ class Data_Project
         data = config_File.load_Json()                          # load it
         if data and data.key                                    # if data is loaded ok
           projects[data.key] =                                  # set project object values
-            path_Root  : folder
-            path_Config: folder.path_Combine @.config_File
-            path_Schema: folder.path_Combine @.schema_File
-            path_Teams : folder.path_Combine 'teams'
+            path_Root           : folder
+            path_Config         : folder.path_Combine @.config_File
+            path_Schema         : folder.path_Combine @.schema_File
+            path_Schema_Details : folder.path_Combine @.schema_Details_File
+            path_Teams          : folder.path_Combine 'teams'
             data: data
     return (cache_Projects = projects)                          # cache results in cache_Projects
 

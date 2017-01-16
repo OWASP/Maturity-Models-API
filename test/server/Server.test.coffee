@@ -105,6 +105,7 @@ describe 'server | Server', ->
                           "#{version}/project/list"
                           "#{version}/project/get/:project"
                           "#{version}/project/schema/:project"
+                          "#{version}/project/schema-details/:project"
                           "#{version}/routes"
                           "#{version}/routes/list-raw"
                           "#{version}/routes/list-fixed"]

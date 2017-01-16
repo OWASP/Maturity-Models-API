@@ -16,7 +16,7 @@ describe 'controllers | Api-Project', ->
   it 'add_Routes', ()->
     using new Api_Project(), ->
       @.add_Routes()
-      @.router.stack.assert_Size_Is 4
+      @.router.stack.assert_Size_Is 5
 
   it 'caches_Clear', ()->
     res =
@@ -61,3 +61,24 @@ describe 'controllers | Api-Project', ->
     using new Api_Project(), ->
       @.list(null, res)
 
+  it 'schema', ()->
+    req =
+      params : project : 'bsimm'
+
+    res =
+      json: (data)->
+        data.config.schema.assert_Is 'bsimm'
+
+    using new Api_Project(), ->
+      @.schema(req, res)
+
+  it 'schema-details', ()->
+    req =
+      params : project : 'bsimm'
+
+    res =
+      json: (data)->
+        data.activities['SM.1.1']._keys().assert_Is [ 'description', 'resources', 'objective', 'proof' ]
+
+    using new Api_Project(), ->
+      @.schema_Details(req, res)

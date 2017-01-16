@@ -39,30 +39,31 @@ describe '_ui_data | create api , create angular service' ,->
 
 
   #misc
-  it 'api/v1/routes'              , -> make_Request_And_Save "#{version}/routes"
-  it 'api/v1/project/list'        , -> make_Request_And_Save "#{version}/project/list"
+  it 'api/v1/routes'                , -> make_Request_And_Save "#{version}/routes"
+  it 'api/v1/project/list'          , -> make_Request_And_Save "#{version}/project/list"
 
   #bsimm
-  it '/data/bsimm/level-1/radar'  , -> make_Request_And_Save "#{version}/data/bsimm/level-1/radar"
-  it '/data/bsimm/level-2/radar'  , -> make_Request_And_Save "#{version}/data/bsimm/level-2/radar"
-  it '/data/bsimm/level-3/radar'  , -> make_Request_And_Save "#{version}/data/bsimm/level-3/radar"
-  it '/data/bsimm/team-A/score'   , -> make_Request_And_Save "#{version}/data/bsimm/team-A/score"
-  it '/data/bsimm/team-A/radar'   , -> make_Request_And_Save "#{version}/data/bsimm/team-A/radar"
-  it '/data/bsimm/radar/fields'   , -> make_Request_And_Save "#{version}/data/bsimm/radar/fields"
-  it '/team/bsimm/new'            , -> skip_If_Exists        "#{version}/team/bsimm/new"            # handle this differently since it will create a new file on every request and affect other data objects
-  it '/team/bsimm/get/team-A'     , -> make_Request_And_Save "#{version}/team/bsimm/get/team-A"
+  it '/data/bsimm/level-1/radar'    , -> make_Request_And_Save "#{version}/data/bsimm/level-1/radar"
+  it '/data/bsimm/level-2/radar'    , -> make_Request_And_Save "#{version}/data/bsimm/level-2/radar"
+  it '/data/bsimm/level-3/radar'    , -> make_Request_And_Save "#{version}/data/bsimm/level-3/radar"
+  it '/data/bsimm/team-A/score'     , -> make_Request_And_Save "#{version}/data/bsimm/team-A/score"
+  it '/data/bsimm/team-A/radar'     , -> make_Request_And_Save "#{version}/data/bsimm/team-A/radar"
+  it '/data/bsimm/radar/fields'     , -> make_Request_And_Save "#{version}/data/bsimm/radar/fields"
+  it '/team/bsimm/new'              , -> skip_If_Exists        "#{version}/team/bsimm/new"            # handle this differently since it will create a new file on every request and affect other data objects
+  it '/team/bsimm/get/team-A'       , -> make_Request_And_Save "#{version}/team/bsimm/get/team-A"
 
-  it '/teams/proofs/bsimm'        , -> make_Request_And_Save "#{version}/teams/proofs/bsimm"
+  it '/teams/proofs/bsimm'          , -> make_Request_And_Save "#{version}/teams/proofs/bsimm"
 
-  it '/project/get/bsimm'         , -> make_Request_And_Save "#{version}/project/get/bsimm"
-  it '/project/schema/bsimm'      , -> make_Request_And_Save "#{version}/project/schema/bsimm"
-  it '/project/scores/bsimm'      , -> make_Request_And_Save "#{version}/project/scores/bsimm"
-  it '/project/activities/bsimm'  , -> make_Request_And_Save "#{version}/project/activities/bsimm"
+  it '/project/get/bsimm'           , -> make_Request_And_Save "#{version}/project/get/bsimm"
+  it '/project/schema/bsimm'        , -> make_Request_And_Save "#{version}/project/schema/bsimm"
+  it '/project/schema-details/bsimm', -> make_Request_And_Save "#{version}/project/schema-details/bsimm"
+  it '/project/scores/bsimm'        , -> make_Request_And_Save "#{version}/project/scores/bsimm"
+  it '/project/activities/bsimm'    , -> make_Request_And_Save "#{version}/project/activities/bsimm"
 
   #samm
-  it '/project/get/samm'          , -> make_Request_And_Save "#{version}/project/get/samm"
-  it '/project/activities/samm'   , -> make_Request_And_Save "#{version}/project/activities/samm"
-  it '/project/scores/samm'       , -> make_Request_And_Save "#{version}/project/scores/samm"
-  it '/project/schema/samm'       , -> make_Request_And_Save "#{version}/project/schema/samm"
-  it '/team/samm/get/team-A'      , -> make_Request_And_Save "#{version}/team/samm/get/team-A"
-  it '/team/samm/get/team-E'      , -> make_Request_And_Save "#{version}/team/samm/get/team-E"
+  it '/project/get/samm'            , -> make_Request_And_Save "#{version}/project/get/samm"
+  it '/project/activities/samm'     , -> make_Request_And_Save "#{version}/project/activities/samm"
+  it '/project/scores/samm'         , -> make_Request_And_Save "#{version}/project/scores/samm"
+  it '/project/schema/samm'         , -> make_Request_And_Save "#{version}/project/schema/samm"
+  it '/team/samm/get/team-A'        , -> make_Request_And_Save "#{version}/team/samm/get/team-A"
+  it '/team/samm/get/team-E'        , -> make_Request_And_Save "#{version}/team/samm/get/team-E"
