@@ -72,13 +72,10 @@ describe 'backend | Data-Stats', ->
 
 
   it 'check performance issue with @.teams_Scores', ->
-    @.timeout 4000
 
     using data_Stats, ->
-      #teams =  @.data_Team.teams_Names(project)
       start =  Date.now()
       using @.teams_Scores(project),->
-        #console.log "final:  > " +  (Date.now() - start)
         #console.log (Date.now() - start)
-        (Date.now() - start).assert_Smaller_Than 100
+        (Date.now() - start).assert_In_Between 1, 100
         @[team].level_1.value.assert_Is 19.4
