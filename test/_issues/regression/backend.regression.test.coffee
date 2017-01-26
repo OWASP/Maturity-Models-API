@@ -41,7 +41,7 @@ describe 'bugs | backend | Data-Project', ->
 
       (name for name, path of @.teams(project) when path.contains('new_teams')).assert_Is []
 
-  it.only '#164 - Fix Radar bug in OwaspSAMM graph - (prob with get_Radar_Data)', ->
+  it '#164 - Fix Radar bug in OwaspSAMM graph - (prob with get_Radar_Data)', ->
     project = 'samm'
     team    = 'level-1'
     using  new Data_Radar(), ->
