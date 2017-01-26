@@ -41,13 +41,13 @@ describe 'bugs | backend | Data-Project', ->
 
       (name for name, path of @.teams(project) when path.contains('new_teams')).assert_Is []
 
-  it '#164 - Fix Radar bug in OwaspSAMM graph - (prob with get_Radar_Data)', ->
+  it.only '#164 - Fix Radar bug in OwaspSAMM graph - (prob with get_Radar_Data)', ->
     project = 'samm'
     team    = 'level-1'
     using  new Data_Radar(), ->
       using @.get_Radar_Data(project,team), ->
         @.axes.assert_Size_Is 12
-        @.axes[0  ].value.assert_Is 1.125
+        @.axes[0  ].value.assert_Is 1
         @.axes[1  ].value.assert_Is 1
         @.axes[11 ].value.assert_Is 1
         (@.axes[0 ].value is undefined).assert_Is_False()
