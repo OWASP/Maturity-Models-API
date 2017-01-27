@@ -41,6 +41,10 @@ describe 'backend | Data-Project', ->
       @.project_Schema('aaa').assert_Is {}
       @.project_Schema({}   ).assert_Is {}
 
+  it 'project_Schema_Details', ->
+    using data_Project, ->
+      @.project_Schema_Details().assert_Is {}
+
   it 'project_Path_Root', ->
     using data_Project, ->
       @.project_Path_Root('bsimm').assert_Folder_Exists()
