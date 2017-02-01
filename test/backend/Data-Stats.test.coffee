@@ -69,6 +69,8 @@ describe 'backend | Data-Stats', ->
     using data_Stats, ->
       using @.teams_Scores(project),->
         @[team].level_1.value.assert_Is 19.4
+        @._keys().assert_Contains     ['team-A' , 'team-B' , 'team-C' ]
+        @._keys().assert_Not_Contains ['level-1', 'level-2', 'level-3']
 
 
   it 'check performance issue with @.teams_Scores', ->

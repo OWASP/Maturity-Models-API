@@ -33,7 +33,8 @@ class Data_Stats
     if project and team
       schema = @.data_Project.project_Schema(project)
       data   = @.data_Team.get_Team_Data(project, team)
-      if data
+
+      if data and data.metadata['hide-from-stats'] isnt 'yes'     # don't process items that have been marked as hidden
         for key, activity of schema.activities        
           score = scores["level_#{activity.level}"] ?= { value: 0, percentage:'', activities: 0}
           score.activities++                
@@ -53,7 +54,9 @@ class Data_Stats
   teams_Scores: (project)=>
     all_Scores = {}
     for team in @.data_Team.teams_Names(project)
-      all_Scores[team] = @.team_Score project, team
+      score = @.team_Score project, team
+      if score?.level_1
+        all_Scores[team] = score
     all_Scores
 
 
