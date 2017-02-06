@@ -47,16 +47,16 @@ describe 'backend | Data-Stats', ->
     using data_Stats, ->
       using @.team_Score(project, team),->
         @.assert_Is  { 'level_1':
-                          value     : 19.4
-                          percentage: '50%'
+                          value     : 25
+                          percentage: '64%'
                           activities: 39
                        'level_2':
-                          value     : 13.4
-                          percentage: '34%'
+                          value     : 23
+                          percentage: '57%'
                           activities: 40
                        'level_3':
-                          value     : 4.8
-                          percentage: '15%'
+                          value     : 8
+                          percentage: '24%'
                           activities: 33 }
 
   it 'team_Score (no project or team)', ->
@@ -68,7 +68,7 @@ describe 'backend | Data-Stats', ->
     @.timeout 4000
     using data_Stats, ->
       using @.teams_Scores(project),->
-        @[team].level_1.value.assert_Is 19.4
+        @[team].level_1.value.assert_Is 25
         @._keys().assert_Contains     ['team-A' , 'team-B' , 'team-C' ]
         @._keys().assert_Not_Contains ['level-1', 'level-2', 'level-3']
 
@@ -80,4 +80,4 @@ describe 'backend | Data-Stats', ->
       using @.teams_Scores(project),->
         #console.log (Date.now() - start)
         (Date.now() - start).assert_In_Between 1, 100
-        @[team].level_1.value.assert_Is 19.4
+        @[team].level_1.value.assert_Is 25
