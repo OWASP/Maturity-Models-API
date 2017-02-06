@@ -8,7 +8,7 @@ class Data_Stats
     @.score_Yes    = 1
     @.score_No     = 0
     @.score_NA     = 1
-    @.score_Maybe  = 0.2
+    @.score_Maybe  = 1 # 0.2   (for now treat Maybe as yes)
 
   activity_Scores: (project)=>
 
