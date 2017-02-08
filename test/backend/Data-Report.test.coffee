@@ -2,7 +2,7 @@ Data_Reports = require '../../src/backend/Data-Reports'
 { markdown}  = require 'markdown'
 cheerio      = require 'cheerio'
 
-describe.only 'backend | Data_Reports', ->
+describe 'backend | Data_Reports', ->
 
   data_Reports = null
   project      = null
@@ -28,7 +28,7 @@ describe.only 'backend | Data_Reports', ->
       using @.create_Report_For_All_Teams(project), ->
         @.file_Name().assert_Is 'readme.md'
         $  =  cheerio.load markdown.toHTML @.file_Contents()
-        $('a').length.assert_Is 7
+        $('a').length.assert_Is_Bigger_Than 5
         $('a').first().attr().assert_Is { href: 'save-test/readme.md' }
 
         @.assert_File_Exists()
