@@ -1,7 +1,5 @@
 require 'fluentnode'
 
-FileStreamRotator = require('file-stream-rotator')
-
 express           = require 'express'
 load              = require 'express-load'
 bodyParser        = require('body-parser');

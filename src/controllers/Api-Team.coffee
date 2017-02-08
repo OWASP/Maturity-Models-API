@@ -1,11 +1,15 @@
-Api_Base    = require './Api-Base'
-Data_Team   = require '../backend/Data-Team'
-Routes      = require '../server/Routes'
+Api_Base     = require './Api-Base'
+Data_Team    = require '../backend/Data-Team'
+Data_Reports = require '../backend/Data-Reports'
+Routes       = require '../server/Routes'
 
 class Api_Team extends Api_Base
   constructor: (options)->
     @.options         = options || {}
-    @.data_Team       = new Data_Team()
+    @.data_Reports    = new Data_Reports()
+    @.data_Team       = @.data_Reports.data_Team
+    #@.data_Team       = new Data_Team()
+
     super()
 
   add_Routes: ()=>
@@ -65,11 +69,12 @@ class Api_Team extends Api_Base
     if typeof req.body is 'object'
       data = req.body.json_Pretty()
     else
-      data = req.body                                             # from post body
-    if filename and data                                          # check that both exist
-      if @.data_Team.set_Team_Data_Json project, filename, data   # if set_Team_Data_Json was ok
-        return res.send status: 'file saved ok'                   # send an ok status
-    res.send error: 'save failed'                                 # if something failed send generic error message
+      data = req.body                                              # from post body
+    if filename and data                                           # check that both exist
+      if @.data_Team.set_Team_Data_Json project, filename, data    # if set_Team_Data_Json was ok
+        if @.data_Reports.create_Report_For_Team project, filename # if report was created ok
+          return res.send status: 'file saved ok'                   # send an ok status
+    res.send error: 'save failed'                                   # if something failed send generic error message
 
 module.exports = Api_Team
 
